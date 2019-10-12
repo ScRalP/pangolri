@@ -1,1 +1,3 @@
-qoiuzhdgqzui
+<?php
+    echo "qoiuzhdgqzui";
+?>
