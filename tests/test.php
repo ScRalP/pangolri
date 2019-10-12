@@ -1,18 +1,5 @@
 <?php
-
-
-
-opejsqoifhseiuqhfiesu
-
-
-gjeisjfioesiofhesiuh
-
-
-feisofhoiseh
-
-
-ehsfeohsfiusefhikqz
-test
+    echo "ne pas commit";
 
 
     echo "qoiuzhdgqzui";
