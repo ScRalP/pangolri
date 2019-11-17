@@ -1,0 +1,8 @@
+@font-face{
+    font-family: 'Quenda-Medium';
+    src: url('../font/Quenda-Medium.otf');
+}
+
+body{
+    font-family: 'Quenda-Medium';
+}
