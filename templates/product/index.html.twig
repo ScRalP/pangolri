@@ -4,10 +4,10 @@
 
 {% block body %}
 
-<h1>Hello {{ controller_name }}! ✅</h1>
+<h1>Product list</h1>
 
 
-<table>
+<table class="table">
     <tr>
         <th>Title</th>
         <th>Description</th>
@@ -15,14 +15,14 @@
         <th></th>
     </tr>
 
-{{ foreach($products as $product) }}
+{% for product in products %}
     <tr>
-        <td>{{ $product.title }}</td>
-        <td>{{ $product.description }}</td>
-        <td>{{ $product.price }}</td>
-        <td><button>Add to kart</button></td>
+        <td>{{ product.title }}</td>
+        <td>{{ product.description }}</td>
+        <td>{{ product.price }}</td>
+        <td><button class="btn btn-secondary">Add to kart</button></td>
     </tr>
-{{ endforeach }}
+{% endfor %}
 </table>
 
 {% endblock %}
