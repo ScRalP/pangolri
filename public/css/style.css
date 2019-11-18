@@ -1,4 +1,5 @@
 @font-face{
+<<<<<<< HEAD
     font-family: "Quenda-Medium";
     src: url('../fonts/Quenda-Medium.otf');
 }
@@ -6,3 +7,12 @@
 body {
     font-family: 'Quenda-Medium' !important;
  }
+=======
+    font-family: 'Quenda-Medium';
+    src: url('../font/Quenda-Medium.otf');
+}
+
+body{
+    font-family: 'Quenda-Medium';
+}
+>>>>>>> master
