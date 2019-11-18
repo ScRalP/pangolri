@@ -23,4 +23,18 @@ class ProductController extends AbstractController
             'products' => $products
         ]);
     }
+    /**
+     * @Route("/product/show/{id}", name="show_product", requirements={"id"="\d+"})
+     * 
+     */
+    public function show(int $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $product = $em->getRepository(Product::class)->find($id);
+
+        return $this->render('product/show.html.twig', [
+            'product' => $product
+        ]);
+    }
 }
