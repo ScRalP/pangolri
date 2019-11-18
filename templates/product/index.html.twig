@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductController!{% endblock %}
+
+{% block body %}
+
+<h1>Hello {{ controller_name }}! ✅</h1>
+
+
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th></th>
+    </tr>
+
+{{ foreach($products as $product) }}
+    <tr>
+        <td>{{ $product.title }}</td>
+        <td>{{ $product.description }}</td>
+        <td>{{ $product.price }}</td>
+        <td><button>Add to kart</button></td>
+    </tr>
+{{ endforeach }}
+</table>
+
+{% endblock %}
