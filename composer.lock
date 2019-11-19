@@ -2133,11 +2133,7 @@
         },
         {
             "name": "symfony/asset",
-<<<<<<< HEAD
-            "version": "v4.3.7",
-=======
             "version": "v4.3.8",
->>>>>>> master
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/asset.git",
