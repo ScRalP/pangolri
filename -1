@@ -1,3 +1,0 @@
-[18-Nov-2019 16:25:07 Europe/Berlin] PHP Fatal error:  Cannot use Riak\Object as Object because 'Object' is a special class name in /home/rq160670/public_html/projets/pangolri/vendor/doctrine/cache/lib/Doctrine/Common/Cache/RiakCache.php on line 8
-[18-Nov-2019 16:40:07 Europe/Berlin] PHP Fatal error:  Cannot use Riak\Object as Object because 'Object' is a special class name in /home/rq160670/public_html/projets/pangolri/vendor/doctrine/cache/lib/Doctrine/Common/Cache/RiakCache.php on line 8
-[18-Nov-2019 16:40:57 Europe/Berlin] PHP Fatal error:  Cannot use Riak\Object as Object because 'Object' is a special class name in /home/rq160670/public_html/projets/pangolri/vendor/doctrine/cache/lib/Doctrine/Common/Cache/RiakCache.php on line 8
