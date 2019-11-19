@@ -1,0 +1,37 @@
+<a href="#" class="go-top">go top</a>
+
+<!-- Footer -->
+<footer class="page-footer font-small bg-secondary">
+
+    <div class="container-fluid">
+        <div class="row">
+            <ul class="col-3 offset-3 list-unstyled text-center">
+                <li><a href="#">link</a></li>
+                <li><a href="#">link</a></li>
+                <li><a href="#">link</a></li>
+                <li><a href="#">link</a></li>
+                <li><a href="#">link</a></li>
+            </ul>
+            <ul class="col-3 list-unstyled text-center">
+                <li><a href="#">link</a></li>
+                <li><a href="#">link</a></li>
+                <li><a href="#">link</a></li>
+                <li><a href="#">link</a></li>
+                <li><a href="#">link</a></li>
+            </ul>
+        </div>
+    </div>
+
+</footer>
+<!-- Footer -->
+
+{# go top button js #}
+<script>
+    $(document).ready(function(){
+        $(window).scroll(function(){
+            if($(this).scrollTop() > 200){
+                $('.go-top').fadeIn(200);
+            }
+        });
+    });
+</script>
