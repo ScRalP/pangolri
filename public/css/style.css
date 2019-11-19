@@ -7,8 +7,8 @@ body {
     font-family: 'Quenda-Medium' !important;
  }
 
-.go-top{
-    display: none;    
+/* .go-top{
+    display: none;
     position: fixed;
     bottom: 2em;
     right: 2em;
@@ -21,4 +21,4 @@ body {
 
 .go-top:hover{
     background-color: rgb(0,0,0,0.6);
-}
+} */
