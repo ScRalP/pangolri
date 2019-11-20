@@ -1,4 +1,4 @@
-<a href="#" class="go-top">go top</a>
+<a href="#" class="go-top"><i class="fas fa-chevron-up fa-lg"></i></a>
 
 <!-- Footer -->
 <footer class="page-footer font-small bg-secondary">
@@ -25,4 +25,8 @@
 </footer>
 <!-- Footer -->
 
-{%  %}
+{% block javascript %}
+
+    {{ encore_entry_script_tags('animation') }}
+
+{% endblock %}
