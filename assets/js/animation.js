@@ -1,5 +1,3 @@
-require('../css/style.css')
-
 const $ = require('jquery');
 
 $(document).ready(function(){
