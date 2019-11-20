@@ -24,7 +24,7 @@ class ProductController extends AbstractController
         ]);
     }
     /**
-     * @Route("/product/show/{id}", name="show_product", requirements={"id"="\d+"})
+     * @Route("/product/{id}", name="show_product", requirements={"id"="\d+"})
      * 
      */
     public function show(int $id)
