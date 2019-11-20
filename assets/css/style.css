@@ -1,0 +1,24 @@
+@font-face{
+    font-family: "Quenda-Medium";
+    src: url('../fonts/Quenda-Medium.otf');
+}
+
+body {
+    font-family: 'Quenda-Medium' !important;
+ }
+
+/* .go-top{
+    display: none;
+    position: fixed;
+    bottom: 2em;
+    right: 2em;
+    text-decoration: none;
+
+    color: white;
+    background-color: rgb(0,0,0,0.3);
+    padding: 1em;
+}
+
+.go-top:hover{
+    background-color: rgb(0,0,0,0.6);
+} */
