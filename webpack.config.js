@@ -31,6 +31,11 @@ Encore
     .addEntry('animation', './assets/js/animation.js')
     //.addEntry('page2', './assets/js/page2.js')
 
+    .copyFiles({
+        from: './assets/images',
+        to: 'images/[name].[ext]',
+        })
+
     
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
