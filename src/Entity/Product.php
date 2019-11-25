@@ -27,7 +27,7 @@ class Product
     private $description;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="double")
      */
     private $price;
 
@@ -60,7 +60,7 @@ class Product
         return $this;
     }
 
-    public function getPrice(): ?int
+    public function getPrice(): ?float
     {
         return $this->price;
     }
