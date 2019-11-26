@@ -4,9 +4,11 @@
 
 {% block body %}
 
-<h1 class="my-4"> {{product.title}} </h1>
+<h1 class="my-4">{{ product.title }}</h1>
 
-<p>{{product.description}}</p>
+<p>{{ product.description }}</p>
+
+<p>{{ product.price }}</p>
 
 <a href={{ path('product_list') }}>Retour aux produits</a>
 
