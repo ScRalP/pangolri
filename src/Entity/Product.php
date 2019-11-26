@@ -32,7 +32,7 @@ class Product
     private $price;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable="true")
      */
     private $images;
 
@@ -73,6 +73,18 @@ class Product
     public function setPrice(float $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getImages(): ?string
+    {
+        return $this->images;
+    }
+
+    public function setImages(string $images): self
+    {
+        $this->images = $images;
 
         return $this;
     }
