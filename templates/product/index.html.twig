@@ -6,46 +6,35 @@
 
 <h1 class="my-4">Product list</h1>
 
-<div class="col-3">
+
+<div class="row">
+{% for product in products %}
+    <div id="{{ product.id }}" class="col-3 my-3">
+        <!-- Card -->
+        <div class="card shadow-sm">
+
+            {# afficher l'image sinon mettre une image "?" #}
+            {% if product.images %}
+                <!-- Card image -->
+                <img class="card-img-top" src={{ asset(product.images) }} alt="{{product.images}}">
+            {% else %}
+                <img class="card-img-top" src={{ asset('build/images/products/unknown.png') }} alt="unknown product">
+            {% endif %}
+
+            <!-- Card content -->
+            <div class="card-body">
+
+                <!-- Title -->
+                <h4 class="card-title"><a href={{ path('show_product', {'id' : product.id}) }}>{{ product.title }}</a></h4>
+                <!-- Text -->
+                <p class="card-text">{{ product.description }}</p>
+
+            </div>
+
+        </div>
     <!-- Card -->
-    <div class="card">
-
-    <!-- Card image -->
-    <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/images/43.jpg" alt="Card image cap">
-
-    <!-- Card content -->
-    <div class="card-body">
-
-        <!-- Title -->
-        <h4 class="card-title"><a>Card title</a></h4>
-        <!-- Text -->
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-
     </div>
-
-    </div>
+{% endfor %}
 </div>
-<!-- Card -->
-
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Description</th>
-            <th scope="col">Price</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for product in products %}
-            <tr>
-                <td>{{ product.title }}</td>
-                <td>{{ product.description }}</td>
-                <td>{{ product.price }}</td>
-                <td><a href={{ path('show_product',{'id' : product.id}) }}><button class="btn btn-secondary">See product</button></a></td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
 
 {% endblock %}
