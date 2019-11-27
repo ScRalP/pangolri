@@ -32,6 +32,21 @@ class Product
     private $price;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $stock;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $brand;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $rate;
+    
+    /**
      * @ORM\Column(type="string", nullable=true)
      */
     private $images;
@@ -82,9 +97,45 @@ class Product
         return $this->images;
     }
 
-    public function setImages(string $images): self
+    public function setImages(?string $images): self
     {
         $this->images = $images;
+
+        return $this;
+    }
+
+    public function getStock(): ?int
+    {
+        return $this->stock;
+    }
+
+    public function setStock(int $stock): self
+    {
+        $this->stock = $stock;
+
+        return $this;
+    }
+
+    public function getRate(): ?int
+    {
+        return $this->rate;
+    }
+
+    public function setRate(int $rate): self
+    {
+        $this->rate = $rate;
+
+        return $this;
+    }
+
+    public function getBrand(): ?string
+    {
+        return $this->brand;
+    }
+
+    public function setBrand(string $brand): self
+    {
+        $this->brand = $brand;
 
         return $this;
     }

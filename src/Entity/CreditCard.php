@@ -1,0 +1,91 @@
+<?php
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\CreditCardRepository")
+ */
+class CreditCard
+{
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $number;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $owner_first_name;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $owner_last_name;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $expiration;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(int $number): self
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    public function getOwnerFirstName(): ?string
+    {
+        return $this->owner_first_name;
+    }
+
+    public function setOwnerFirstName(string $owner_first_name): self
+    {
+        $this->owner_first_name = $owner_first_name;
+
+        return $this;
+    }
+
+    public function getOwnerLastName(): ?string
+    {
+        return $this->owner_last_name;
+    }
+
+    public function setOwnerLastName(string $owner_last_name): self
+    {
+        $this->owner_last_name = $owner_last_name;
+
+        return $this;
+    }
+
+    public function getExpiration(): ?\DateTimeInterface
+    {
+        return $this->expiration;
+    }
+
+    public function setExpiration(\DateTimeInterface $expiration): self
+    {
+        $this->expiration = $expiration;
+
+        return $this;
+    }
+}
