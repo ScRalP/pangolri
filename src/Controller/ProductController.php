@@ -23,6 +23,7 @@ class ProductController extends AbstractController
             'products' => $products
         ]);
     }
+    
     /**
      * @Route("/product/{id}", name="show_product", requirements={"id"="\d+"})
      * 

@@ -32,7 +32,7 @@ class Product
     private $price;
 
     /**
-     * @ORM\Column(type="string", nullable="true")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $images;
 
