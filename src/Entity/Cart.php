@@ -24,7 +24,7 @@ class Cart
     private $price;
 
     /**
-     * @ORM\OneToMany(targetEntity="\App\Entity\Product", mappedBy="cart")
+     * @ORM\ManyToMany(targetEntity="\App\Entity\Product", mappedBy="carts")
      */
     private $products;
 
@@ -72,7 +72,7 @@ class Cart
     {
         if (!$this->products->contains($product)) {
             $this->products[] = $product;
-            $product->setCart($this);
+            $product->addCart($this);
         }
 
         return $this;
@@ -82,10 +82,7 @@ class Cart
     {
         if ($this->products->contains($product)) {
             $this->products->removeElement($product);
-            // set the owning side to null (unless already changed)
-            if ($product->getCart() === $this) {
-                $product->setCart(null);
-            }
+            $product->removeCart($this);
         }
 
         return $this;

@@ -64,14 +64,21 @@ class Product
     private $comments;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Cart", inversedBy="products")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Wishlist", inversedBy="products")
      */
-    private $cart;
+    private $wishlists;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Cart", inversedBy="products")
+     */
+    private $carts;
 
     public function __construct()
     {
         $this->categories = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->wishlists = new ArrayCollection();
+        $this->carts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -220,14 +227,54 @@ class Product
         return $this;
     }
 
-    public function getCart(): ?Cart
+    /**
+     * @return Collection|Wishlist[]
+     */
+    public function getWishlists(): Collection
     {
-        return $this->cart;
+        return $this->wishlists;
     }
 
-    public function setCart(?Cart $cart): self
+    public function addWishlist(Wishlist $wishlist): self
     {
-        $this->cart = $cart;
+        if (!$this->wishlists->contains($wishlist)) {
+            $this->wishlists[] = $wishlist;
+        }
+
+        return $this;
+    }
+
+    public function removeWishlist(Wishlist $wishlist): self
+    {
+        if ($this->wishlists->contains($wishlist)) {
+            $this->wishlists->removeElement($wishlist);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Cart[]
+     */
+    public function getCarts(): Collection
+    {
+        return $this->carts;
+    }
+
+    public function addCart(Cart $cart): self
+    {
+        if (!$this->carts->contains($cart)) {
+            $this->carts[] = $cart;
+        }
+
+        return $this;
+    }
+
+    public function removeCart(Cart $cart): self
+    {
+        if ($this->carts->contains($cart)) {
+            $this->carts->removeElement($cart);
+        }
 
         return $this;
     }

@@ -6,7 +6,6 @@
 
 <h1 class="my-4">Product list</h1>
 
-
 <div class="row">
 {% for product in products %}
     <div id="{{ product.id }}" class="product-container col-3 my-3">
@@ -34,6 +33,8 @@
         </div>
     <!-- Card -->
     </div>
+{% else %}
+    <p>No product to display</p>
 {% endfor %}
 </div>
 
