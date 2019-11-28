@@ -30,6 +30,16 @@ class Delivery
      * @ORM\Column(type="float")
      */
     private $price;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="\App\Entity\Order", mappedBy="delivery")
+     */
+    private $order;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="\App\Entity\User", inversedBy="delivery")
+     */
+    private $user;
 
     public function getId(): ?int
     {
@@ -68,6 +78,36 @@ class Delivery
     public function setPrice(float $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getOrder(): ?Order
+    {
+        return $this->order;
+    }
+
+    public function setOrder(?Order $order): self
+    {
+        $this->order = $order;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newDelivery = null === $order ? null : $this;
+        if ($order->getDelivery() !== $newDelivery) {
+            $order->setDelivery($newDelivery);
+        }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

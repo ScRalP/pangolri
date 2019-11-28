@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -64,6 +66,41 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\OneToOne(targetEntity="\App\Entity\Cart", mappedBy="user")
+     */
+    private $cart;
+
+    /**
+     * @ORM\OneToOne(targetEntity="\App\Entity\Wishlist", mappedBy="user")
+     */
+    private $wishlist;
+
+    /**
+     * @ORM\OneToMany(targetEntity="\App\Entity\Order", mappedBy="user")
+     */
+    private $orders;
+
+    /**
+     * @ORM\OneToMany(targetEntity="\App\Entity\Delivery", mappedBy="user")
+     */
+    private $deliveries;
+
+    /**
+     * @ORM\OneToMany(targetEntity="\App\Entity\Payment", mappedBy="user")
+     */
+    private $payments;
+
+    public function __construct()
+    {
+        $this->order = new ArrayCollection();
+        $this->delivery = new ArrayCollection();
+        $this->payment = new ArrayCollection();
+        $this->orders = new ArrayCollection();
+        $this->deliveries = new ArrayCollection();
+        $this->payments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -191,6 +228,135 @@ class User implements UserInterface
     public function setCellphone(string $cellphone): self
     {
         $this->cellphone = $cellphone;
+
+        return $this;
+    }
+
+    public function getCart(): ?Cart
+    {
+        return $this->cart;
+    }
+
+    public function setCart(?Cart $cart): self
+    {
+        $this->cart = $cart;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newUser = null === $cart ? null : $this;
+        if ($cart->getUser() !== $newUser) {
+            $cart->setUser($newUser);
+        }
+
+        return $this;
+    }
+
+    public function getWishlist(): ?Wishlist
+    {
+        return $this->wishlist;
+    }
+
+    public function setWishlist(?Wishlist $wishlist): self
+    {
+        $this->wishlist = $wishlist;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newUser = null === $wishlist ? null : $this;
+        if ($wishlist->getUser() !== $newUser) {
+            $wishlist->setUser($newUser);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Order[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    /**
+     * @return Collection|Delivery[]
+     */
+    public function getDeliveries(): Collection
+    {
+        return $this->deliveries;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->contains($order)) {
+            $this->orders->removeElement($order);
+            // set the owning side to null (unless already changed)
+            if ($order->getUser() === $this) {
+                $order->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addDelivery(Delivery $delivery): self
+    {
+        if (!$this->deliveries->contains($delivery)) {
+            $this->deliveries[] = $delivery;
+            $delivery->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDelivery(Delivery $delivery): self
+    {
+        if ($this->deliveries->contains($delivery)) {
+            $this->deliveries->removeElement($delivery);
+            // set the owning side to null (unless already changed)
+            if ($delivery->getUser() === $this) {
+                $delivery->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Payment[]
+     */
+    public function getPayments(): Collection
+    {
+        return $this->payments;
+    }
+
+    public function addPayment(Payment $payment): self
+    {
+        if (!$this->payments->contains($payment)) {
+            $this->payments[] = $payment;
+            $payment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePayment(Payment $payment): self
+    {
+        if ($this->payments->contains($payment)) {
+            $this->payments->removeElement($payment);
+            // set the owning side to null (unless already changed)
+            if ($payment->getUser() === $this) {
+                $payment->setUser(null);
+            }
+        }
 
         return $this;
     }

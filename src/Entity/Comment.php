@@ -21,6 +21,11 @@ class Comment
      */
     private $description;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Product", inversedBy="comments")
+     */
+    private $product;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -31,9 +36,21 @@ class Comment
         return $this->description;
     }
 
-    public function setDescription(?string $description): self
+    public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }
