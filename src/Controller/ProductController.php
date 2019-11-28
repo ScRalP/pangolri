@@ -2,15 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Product;
-
+use App\Form\ProductType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProductController extends AbstractController
 {
 
     /**
+     * Affichage de l'ensemble des produits
+     * 
      * @Route("/product", name="product_list")
      */
     public function index()
@@ -25,8 +29,9 @@ class ProductController extends AbstractController
     }
     
     /**
-     * @Route("/product/{id}", name="show_product", requirements={"id"="\d+"})
+     * Affichage de la fiche d'un produit
      * 
+     * @Route("/product/{id}", name="show_product", requirements={"id"="\d+"})
      */
     public function show(int $id)
     {
@@ -36,6 +41,35 @@ class ProductController extends AbstractController
 
         return $this->render('product/show.html.twig', [
             'product' => $product
+        ]);
+    }
+
+    /**
+     * Creer un nouveau produit
+     * 
+     * @Route("/product/new", name="new_product")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function new(Request $request)
+    {
+        $product = new Product();
+
+        $category = new Category();
+        $category->setName('Fun');
+
+        $product->addCategory($category);
+
+        $form = $this->createForm(ProductType::class);
+        $form->handleRequest($request);
+
+
+        if ( $form->isSubmitted() ) {
+            dump($product);
+        }
+
+        return $this->render('product/new.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 }

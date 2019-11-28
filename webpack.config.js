@@ -29,7 +29,7 @@ Encore
 
     //JS Entry
     .addEntry('animation', './assets/js/animation.js')
-    //.addEntry('page2', './assets/js/page2.js')
+    .addEntry('dynamicForms', './assets/js/dynamicForms.js')
 
     .copyFiles({
         from: 'assets/images',

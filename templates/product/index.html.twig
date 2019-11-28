@@ -27,7 +27,9 @@
                 <h4 class="card-title"><a href={{ path('show_product', {'id' : product.id}) }}>{{ product.title }}</a></h4>
                 <!-- Text -->
                 <p class="card-text">{{ product.description }}</p>
-
+                {% for category in product.categories %}
+                    <span class="badge badge-secondary">{{category}}</span>
+                {% endfor %}
             </div>
 
         </div>

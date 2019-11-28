@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>New product</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.price) }}
+        {{ form_row(form.stock) }}
+        {{ form_row(form.brand) }}
+        {{ form_row(form.images) }}
+
+        <div class="card" id="category_list" data-prototype={{ form_widget(form.categories.vars.prototype)|e('html_attr') }}>
+            <div class="card-header">
+                <p>{{ form_row(form.categories) }}</p>
+            </div>
+            <div class="card-body">
+                {% for row in form.categories %}
+                    <div class="panel">
+                        <div class="panel-body">
+                            {{ form_widget(row.name) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('dynamicForms') }}
+{% endblock %}
