@@ -33,15 +33,14 @@ class ProductType extends AbstractType
 
             //Toute cette partie sert à ajouter au formulaire la possibilité de mettre plusieurs catégories
             ->add('categories', CollectionType::class, [
-                'label' => 'categories',
                 'allow_add' => true,
                 'allow_delete' => true,
                 'delete_empty' => true,
+                
                 //Ajout des entity de type Category
-                'entry_type' => EntityType::class, [
-                    
-                ]
+                'entry_type' => EntityType::class,
                 'entry_options' => [
+                    'label' => false,
                     'class' => Category::class,
                 ]
             ])
