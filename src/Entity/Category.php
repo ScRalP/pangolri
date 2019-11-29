@@ -24,7 +24,7 @@ class Category
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Product", inversedBy="categories")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Product", cascade={"persist", "remove"})
      */
     private $products;
 

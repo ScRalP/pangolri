@@ -54,7 +54,7 @@ class Product
     private $images;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="products")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category")
      */
     private $categories;
 
