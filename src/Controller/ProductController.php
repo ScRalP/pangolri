@@ -54,13 +54,14 @@ class ProductController extends AbstractController
     public function new(Request $request)
     {
         $product = new Product();
+        $product->setTitle('test');
+        $product->setDescription('fuck its a test');
 
         $category = new Category();
-        $category->setName('Fun');
-
+        $category->setName('test');
         $product->addCategory($category);
 
-        $form = $this->createForm(ProductType::class);
+        $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
 
