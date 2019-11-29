@@ -57,6 +57,9 @@ class ProductController extends AbstractController
         $product->setTitle('test');
         $product->setDescription('fuck its a test');
 
+        $product->setTitle('test');
+        $product->setDescription('fucking test');
+
         $category = new Category();
         $category->setName('test');
         $product->addCategory($category);

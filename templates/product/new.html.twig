@@ -4,12 +4,14 @@
     <h1>New product</h1>
 
     {{ form_start(form) }}
-        {{ form_row(form.title) }}
-        {{ form_row(form.description) }}
-        {{ form_row(form.price) }}
-        {{ form_row(form.stock) }}
-        {{ form_row(form.brand) }}
-        {{ form_row(form.images) }}
+        {{ form_widget(form.title) }}
+        {{ form_widget(form.description) }}
+        {{ form_widget(form.price) }}
+        {{ form_widget(form.stock) }}
+        {{ form_widget(form.brand) }}
+        {{ form_widget(form.images) }}
+
+        
 
         <div class="well" id="category_list" data-prototype={{ form_widget(form.categories.vars.prototype)|e('html_attr') }}>
             <div class="card-header">
