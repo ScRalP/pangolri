@@ -11,11 +11,10 @@
         {{ form_widget(form.brand) }}
         {{ form_widget(form.images) }}
 
-        
 
-        <div class="well" id="category_list" data-prototype={{ form_widget(form.categories.vars.prototype)|e('html_attr') }}>
+        <div class="card" id="category_list" data-prototype={{ form_widget(form.categories.vars.prototype)|e('html_attr') }}>
             <div class="card-header">
-                <p>{{ dump(form) }}</p>
+                <p>{{ form_row(form.categories) }}</p>
             </div>
             <div class="card-body">
                 {% for row in form.categories %}
@@ -24,7 +23,6 @@
                             {{ form_widget(row.name) }}
                         </div>
                     </div>
-                    <a href="btn btn-primary">fuck<a/>
                 {% endfor %}
             </div>
         </div>
