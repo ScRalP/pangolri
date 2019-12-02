@@ -53,16 +53,19 @@ class ProductController extends AbstractController
      */
     public function new(Request $request)
     {
-        $entity_manager = $this->getDoctrine()->getManager();
-
         $product = new Product();
 
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
-
         if ( $form->isSubmitted() ) {
-            dump($product);
+            $product = $form->getData();
+
+            $product->setRate(0);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($product);
+            $entityManager->flush();
         }
 
         return $this->render('product/new.html.twig', [

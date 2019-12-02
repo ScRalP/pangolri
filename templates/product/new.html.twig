@@ -1,30 +1,54 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>New product</h1>
 
-    {{ form_start(form) }}
+{{ form_start(form) }}
 
-        
-        {{ form_widget(form.title) }}
-        {{ form_widget(form.description) }}
-        {{ form_widget(form.price) }}
-        {{ form_widget(form.stock) }}
-        {{ form_widget(form.brand) }}
-        {{ form_widget(form.images) }}
+<div class="card">
+    <div class="card-header">
+        <h1>New product</h1>
+    </div>
 
-        <div class="card" id="category_list">
-            <div class="card-header">
-                <p>categories</p>
-            </div>
-            <div class="card-body">
-                {% for row in form.categories %}
-                    {{ form_widget(row) }}
-                {% endfor %}
-            </div>
+    <div class="card-body">
+
+        <div class="form-group">
+            <label for="inputTitle">Title</label>
+            {{ form_widget(form.title) }}
         </div>
+        <div class="form-group">
+            <label for="inputDescription">Description</label>
+            {{ form_widget(form.description) }}
+        </div>
+        <div class="form-group">
+            <label for="inputPrice">Price</label>
+            {{ form_widget(form.price) }}
+        </div>
+        <div class="form-group">
+            <label for="inputStock">Stock</label>
+            {{ form_widget(form.stock) }}
+        </div>
+        <div class="form-group">
+            <label for="inputBrand">brand</label>
+            {{ form_widget(form.brand) }}
+        </div>
+        <div class="form-group">
+            <label for="inputImages">images</label>
+            {{ form_widget(form.images) }}
+        </div>
+        <div class="form-group">
+            <label for="inputCategories">categories</label>
+            {{ form_widget(form.categories) }}
+        </div>
+            
+    </div>
 
-    {{ form_end(form) }}
+    <div class="card-footer">
+        {{ form_widget(form.save) }}
+    </div>
+</div>
+
+
+{{ form_end(form) }}
 {% endblock %}
 
 {% block javascripts %}
