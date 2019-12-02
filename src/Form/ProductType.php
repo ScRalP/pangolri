@@ -19,39 +19,25 @@ class ProductType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $entity_manager = $options['entity_manager'];
-
         $builder
-            ->add('title'      , TextType::class)
-            ->add('description', TextareaType::class)
-            ->add('price'      , IntegerType::class)
-            ->add('stock'      , IntegerType::class)
-            ->add('brand'      , TextType::class, ['required' => false])
-            ->add('images'     , FileType::class, ['required' => false])
-
-            //Toute cette partie sert à ajouter au formulaire la possibilité de mettre plusieurs catégories
+            ->add('title')
+            ->add('description')
+            ->add('price')
+            ->add('stock')
+            ->add('brand')
+            ->add('images')
             ->add('categories', EntityType::class, [
-                'class'        => Category::class,
-                'em'           => $entity_manager,
+                'class' => Category::class,
                 'choice_label' => 'name',
-                'multiple'     => true
+                'multiple' => true,
+                'expanded' => true
             ])
-
-            ->add('save', SubmitType::class, [
-                'attr'=> [
-                    'class' => 'btn btn-success'
-                ]
-            ])
+            ->add('save', SubmitType::class)
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setRequired('entity_manager');
-
-        $resolver->setDefaults([
-            'entityManager' => null,
-            'data_class' => Product::class,
-        ]);
+        
     }
 }

@@ -56,16 +56,8 @@ class ProductController extends AbstractController
         $entity_manager = $this->getDoctrine()->getManager();
 
         $product = new Product();
-        $product->setTitle('test');
-        $product->setDescription('fuck its a test'); 
 
-        $category = new Category();
-        $category->setName('FUUUUUCK');
-        $product->addCategory($category);
-
-        $form = $this->createForm(ProductType::class, $product, [
-            'entity_manager' => $entity_manager,
-        ]);
+        $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
 
