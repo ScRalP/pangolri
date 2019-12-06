@@ -68,12 +68,12 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToOne(targetEntity="\App\Entity\Cart", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="\App\Entity\Cart", inversedBy="user")
      */
     private $cart;
 
     /**
-     * @ORM\OneToOne(targetEntity="\App\Entity\Wishlist", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="\App\Entity\Wishlist", inversedBy="user")
      */
     private $wishlist;
 
@@ -241,12 +241,6 @@ class User implements UserInterface
     {
         $this->cart = $cart;
 
-        // set (or unset) the owning side of the relation if necessary
-        $newUser = null === $cart ? null : $this;
-        if ($cart->getUser() !== $newUser) {
-            $cart->setUser($newUser);
-        }
-
         return $this;
     }
 
@@ -258,12 +252,6 @@ class User implements UserInterface
     public function setWishlist(?Wishlist $wishlist): self
     {
         $this->wishlist = $wishlist;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newUser = null === $wishlist ? null : $this;
-        if ($wishlist->getUser() !== $newUser) {
-            $wishlist->setUser($newUser);
-        }
 
         return $this;
     }

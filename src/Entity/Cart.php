@@ -34,7 +34,7 @@ class Cart
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity="\App\Entity\Order", mappedBy="cart")
+     * @ORM\OneToOne(targetEntity="\App\Entity\Order", inversedBy="cart")
      */
     private $order;
 
@@ -114,12 +114,6 @@ class Cart
     public function setOrder(?Order $order): self
     {
         $this->order = $order;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newCart = null === $order ? null : $this;
-        if ($order->getCart() !== $newCart) {
-            $order->setCart($newCart);
-        }
 
         return $this;
     }

@@ -66,6 +66,8 @@ class ProductController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($product);
             $entityManager->flush();
+
+            return $this->redirectToRoute('product_list');
         }
 
         return $this->render('product/new.html.twig', [

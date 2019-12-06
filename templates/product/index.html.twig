@@ -15,9 +15,9 @@
             {# afficher l'image sinon mettre une image "?" #}
             {% if product.images %}
                 <!-- Card image -->
-                <img class="card-img-top" src={{ asset(product.images) }} alt="{{product.images}}">
+                <img class="card-img-top" src='build/images/products/{{ product.images }}' alt='{{product.images}}'>
             {% else %}
-                <img class="card-img-top" src={{ asset('build/images/products/unknown.png') }} alt="unknown product">
+                <img class="card-img-top" src={{ asset('build/images/products/unknown.png') }} alt='unknown product'>
             {% endif %}
 
             <!-- Card content -->
@@ -30,6 +30,8 @@
                 {% for category in product.categories %}
                     <span class="badge badge-secondary">{{category}}</span>
                 {% endfor %}
+
+                <label class="">
             </div>
 
         </div>

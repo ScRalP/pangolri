@@ -39,7 +39,7 @@ class Product
     private $stock;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $brand;
 
@@ -163,7 +163,7 @@ class Product
         return $this->brand;
     }
 
-    public function setBrand(string $brand): self
+    public function setBrand(?string $brand): self
     {
         $this->brand = $brand;
 

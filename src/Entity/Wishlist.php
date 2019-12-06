@@ -24,9 +24,9 @@ class Wishlist
     private $products;
 
     /**
-     * @ORM\OneToOne(targetEntity="\App\Entity\User", mappedBy="cart")
+     * @ORM\OneToOne(targetEntity="\App\Entity\User", mappedBy="wishlist")
      */
-    private $client;
+    private $user;
 
     public function __construct()
     {
@@ -66,19 +66,19 @@ class Wishlist
         return $this;
     }
 
-    public function getClient(): ?User
+    public function getUser(): ?User
     {
-        return $this->client;
+        return $this->user;
     }
 
-    public function setClient(?User $client): self
+    public function setUser(?User $user): self
     {
-        $this->client = $client;
+        $this->user = $user;
 
         // set (or unset) the owning side of the relation if necessary
-        $newCart = null === $client ? null : $this;
-        if ($client->getCart() !== $newCart) {
-            $client->setCart($newCart);
+        $newWishlist = null === $user ? null : $this;
+        if ($user->getWishlist() !== $newWishlist) {
+            $user->setWishlist($newWishlist);
         }
 
         return $this;
