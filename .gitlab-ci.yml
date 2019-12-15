@@ -21,7 +21,7 @@ variables:
     MYSQL_ROOT_PASSWORD: password
     MYSQL_PASSWORD: password
     
-    before_script:
+before_script:
     - apt-get update -yqq
     - apt-get install git -yqq zlib1g-dev
     # Install mysql driver
