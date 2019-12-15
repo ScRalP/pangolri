@@ -24,6 +24,7 @@ variables:
 before_script:
     - apt-get update
     - apt-get install zip unzip
+    - apt-get install -y libzip-dev && docker-php-ext-install zip
     # Install mysql driver
     - docker-php-ext-install pdo_mysql zip
     - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
