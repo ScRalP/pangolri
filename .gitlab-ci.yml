@@ -16,7 +16,7 @@ stages:
 
 variables:
     # Configure mysql service (https://hub.docker.com/_/mysql/)
-    MYSQL_DATABASE: test
+    MYSQL_DATABASE: pangolri
     MYSQL_USER: runner
     MYSQL_ROOT_PASSWORD: password
     MYSQL_PASSWORD: password
@@ -41,7 +41,9 @@ test:
         # Install & enable Xdebug for code coverage reports
         - pecl install xdebug
         - docker-php-ext-enable xdebug
-        - php bin/console doctrine:migrations:migrate -e test
+        - php bin/console doctrine:database:create -e pangolri
+        - php bin/console doctrine:schema:create -e pangolri
+        - php bin/console doctrine:migrations:migrate -e pangolri
         - php bin/console doctrine:fixture:load --no-interaction -e test
         - php composer.phar test-gitlab
         
