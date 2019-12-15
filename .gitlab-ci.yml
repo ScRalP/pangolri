@@ -16,7 +16,7 @@ stages:
 
 variables:
     # Configure mysql service (https://hub.docker.com/_/mysql/)
-    MYSQL_DATABASE: database
+    MYSQL_DATABASE: test
     MYSQL_USER: runner
     MYSQL_ROOT_PASSWORD: password
     MYSQL_PASSWORD: password
@@ -32,6 +32,14 @@ before_script:
     - php -r "unlink('composer-setup.php');"
     # Install all project dependencies
     - php composer.phar install
+    
+connect:
+  image: mysql
+  before_script:
+  - mysql --version
+  script:
+  - echo "SELECT 'OK';" | mysql --user=root --password="${toor}" --host=mysql "${test}"
+
 
 test:
     stage: test
