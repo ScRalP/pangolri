@@ -22,12 +22,11 @@ variables:
     MYSQL_PASSWORD: password
     
 before_script:
-    - apt-get update -yqq
-    - apt-get install git -yqq zlib1g-dev
-    # Install mysql driver
-    - docker-php-ext-install pdo_mysql zip
-    # Install composer
-    - curl -sS https://getcomposer.org/installer | php
+    - apt-get update
+    - apt-get install zip unzip
+    - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    - php composer-setup.php
+    - php -r "unlink('composer-setup.php');"
     # Install all project dependencies
     - php composer.phar install
 
