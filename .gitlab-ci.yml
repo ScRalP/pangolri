@@ -1,0 +1,79 @@
+# This file is a template, and might need editing before it works on your project.
+# Read more about the feature here: https://docs.gitlab.com/ee/user/project/merge_requests/browser_performance_testing.html
+image: php:latest
+services:
+    - mysql:latest
+cache:
+    paths:
+    - vendor/
+
+stages:
+    - connect
+    - test
+    - performance
+    - deploy
+
+
+variables:
+    # Configure mysql service (https://hub.docker.com/_/mysql/)
+    MYSQL_DATABASE: test
+    MYSQL_USER: runner
+    MYSQL_ROOT_PASSWORD: password
+    MYSQL_PASSWORD: password
+    
+before_script:
+
+    - apt-get update
+    - apt-get install zip unzip
+    - apt-get install -y libzip-dev && docker-php-ext-install zip
+    # Install mysql driver
+    - docker-php-ext-install pdo_mysql zip
+    - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    - php composer-setup.php
+    - php -r "unlink('composer-setup.php');"
+    # Install all project dependencies
+    - php composer.phar install
+
+test:
+    stage: test
+    script:
+        - cp .env.test .env
+        # Install & enable Xdebug for code coverage reports
+        - pecl install xdebug
+        - docker-php-ext-enable xdebug
+        - php bin/console doctrine:migrations:migrate -e test
+        - php bin/console doctrine:fixture:load --no-interaction -e test
+        - php composer.phar test-gitlab
+        
+performance:
+  stage: performance
+  image: docker:git
+  variables:
+    URL: https://example.com
+    SITESPEED_VERSION: 11.2.0
+    SITESPEED_OPTIONS: ''
+  services:
+    - docker:stable-dind
+  script:
+    - mkdir gitlab-exporter
+    - wget -O ./gitlab-exporter/index.js https://gitlab.com/gitlab-org/gl-performance/raw/master/index.js
+    - mkdir sitespeed-results
+    - docker run --shm-size=1g --rm -v "$(pwd)":/sitespeed.io sitespeedio/sitespeed.io:$SITESPEED_VERSION --plugins.add ./gitlab-exporter --outputFolder sitespeed-results $URL $SITESPEED_OPTIONS
+    - mv sitespeed-results/data/performance.json performance.json
+  artifacts:
+    paths:
+      - performance.json
+      - sitespeed-results/
+    reports:
+      performance: performance.json
+
+deploy:
+    stage: deploy
+    script:
+        - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+        - eval $(ssh-agent -s)
+        - ssh-add <(echo "$SSH_PRIVATE_KEY")
+        - mkdir -p ~/.ssh
+        - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
+
