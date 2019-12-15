@@ -33,7 +33,6 @@ before_script:
     - php -r "unlink('composer-setup.php');"
     # Install all project dependencies
     - php composer.phar install
-    - docker run --name runner -e MYSQL_ROOT_PASSWORD=password -d mysql:tag
 
 test:
     stage: test
