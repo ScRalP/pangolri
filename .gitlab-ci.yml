@@ -34,7 +34,6 @@ before_script:
     - php -r "unlink('composer-setup.php');"
     # Install all project dependencies
     - php composer.phar install
-    - composer install --prefer-dist --no-ansi --no-interaction --no-progress
 
 test:
     stage: test
@@ -44,6 +43,7 @@ test:
         - pecl install xdebug
         - docker-php-ext-enable xdebug
         - php bin/console doctrine:migrations:migrate -e pangolri --allow-no-migration
+        - php composer.phar update
         - php bin/console doctrine:fixture:load --no-interaction -e pangolri
         - php composer.phar test-gitlab
         
