@@ -44,6 +44,7 @@ test:
         - docker-php-ext-enable xdebug
         - php bin/console doctrine:migrations:migrate -e pangolri --allow-no-migration
         - php composer.phar update
+        - php composer.phar require orm-fixtures
         - php bin/console doctrine:fixture:load --no-interaction -e pangolri
         - php composer.phar test-gitlab
         
