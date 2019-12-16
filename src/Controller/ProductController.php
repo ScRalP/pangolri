@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Category;
 use App\Entity\Product;
 use App\Form\ProductType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,11 +16,26 @@ class ProductController extends AbstractController
      * 
      * @Route("/product", name="product_list")
      */
-    public function index()
+    public function index(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
 
-        $products = $em->getRepository(Product::class)->findAll();
+        $em = $this->getDoctrine()->getManager();
+        $products = [];
+
+        //On fait la recherce avec paramètre
+        if( isset($_GET['search']) && $_GET['search']!=null ){
+            $allProducts = $em->getRepository(Product::class)->findAll();
+
+            foreach($allProducts as $product){
+                if( strpos( $product->getTitle(), $_GET['search'] ) !== false ){
+                    array_push($products, $product);
+                }
+            }
+
+        }
+        else{ //Pas de recherche, affichage de tout les éléments
+            $products = $em->getRepository(Product::class)->findAll();
+        }
 
         return $this->render('product/index.html.twig', [
             'products' => $products
@@ -58,7 +72,7 @@ class ProductController extends AbstractController
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
-        if ( $form->isSubmitted() ) {
+        if ( $form->isSubmitted() && $form->isValid() ) {
             $product = $form->getData();
 
             $product->setRate(0);

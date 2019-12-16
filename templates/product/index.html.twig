@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<h1 class="my-4">Product list</h1>
+<h1>Product list</h1>
 
 <div class="row">
 {% for product in products %}
@@ -13,9 +13,9 @@
         <div class="card shadow">
 
             {# afficher l'image sinon mettre une image "?" #}
-            {% if product.images %}
+            {% if product.images and assetExists(product.images)%}
                 <!-- Card image -->
-                <img class="card-img-top" src='build/images/products/{{ product.images }}' alt='{{product.images}}'>
+                <img class="card-img-top" src='build/images/products/{{product.images}}' alt='{{product.images}}'>
             {% else %}
                 <img class="card-img-top" src={{ asset('build/images/products/unknown.png') }} alt='unknown product'>
             {% endif %}

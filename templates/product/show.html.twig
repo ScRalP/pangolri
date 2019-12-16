@@ -4,12 +4,25 @@
 
 {% block body %}
 
-<h1 class="my-4">{{ product.title }}</h1>
+<div class="card">
+    <div class="card-header">
+        <h1>{{ product.title }}</h1>
+    </div>
 
-<p>{{ product.description }}</p>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <p>{{ product.description }}</p>
+            </div>
 
-<p>{{ product.price }}</p>
+            <div class="col-6">
+                <img class="card-img-top" src='build/images/products/{{product.images}}' alt='{{product.images}}'>
+            </div>
+        </div>
+    </div>
+</div>
 
-<a href={{ path('product_list') }}>Retour aux produits</a>
+
+<a class="btn btn-primary mt-3" href={{ path('product_list') }}>Retour aux produits</a>
 
 {% endblock %}
