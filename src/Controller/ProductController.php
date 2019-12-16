@@ -18,7 +18,6 @@ class ProductController extends AbstractController
      */
     public function index(Request $request)
     {
-
         $em = $this->getDoctrine()->getManager();
         $products = [];
 

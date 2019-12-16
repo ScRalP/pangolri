@@ -30,15 +30,15 @@
             {{ form_widget(form.stock) }}
         </div>
         <div class="form-group">
-            <label for="inputBrand">brand</label>
+            <label for="inputBrand">Brand</label>
             {{ form_widget(form.brand) }}
         </div>
         <div class="form-group">
-            <label for="inputImages">images</label>
+            <label for="inputImages">Images</label>
             {{ form_widget(form.images) }}
         </div>
         <div class="card">
-            <div class="card-header"><label>Categories</label></div>
+            <div class="card-header"><label for="inputCategories">Categories</label></div>
             <div class="card-body">
                 {% for row in form.categories %}
                     <div>

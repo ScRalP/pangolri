@@ -15,9 +15,12 @@
                 <p>{{ product.description }}</p>
             </div>
 
-            <div class="col-6">
-                <img class="card-img-top" src='build/images/products/{{product.images}}' alt='{{product.images}}'>
-            </div>
+            {% for image in product.images %}
+                <div class="col-6">
+                    <img class="card-img-top" src='build/images/products/{{product.images}}' alt='{{product.images}}'>
+                </div>
+            {% endfor %}
+
         </div>
     </div>
 </div>

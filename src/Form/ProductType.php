@@ -26,9 +26,6 @@ class ProductType extends AbstractType
             ->add('brand'      , TextType::class       , [ 'attr' => ['class' => 'form-control'], 'required' => false ])
             ->add('images'     , CollectionType::class , [
                 'entry_type' => TextType::class,
-                'entry_options' => [
-                    'attr' => ['class' => 'form-control'],
-                    'required' => false ],
                 ])
 
             ->add('categories', EntityType::class, [
