@@ -45,7 +45,7 @@ test:
         - php bin/console doctrine:migrations:migrate -e pangolri --allow-no-migration
         - php composer.phar update
         - php composer.phar require orm-fixtures
-        - php bin/console doctrine:fixtures:load --no-interaction -e pangolri
+        - php bin/console doctrine:fixtures:load --no-interaction
         - php composer.phar test-gitlab
         
 performance:
