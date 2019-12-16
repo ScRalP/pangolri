@@ -26,6 +26,7 @@ variables:
     - curl -sS https://getcomposer.org/installer | php
     # Install all project dependencies
     - php composer.phar install
+    - composer install --prefer-dist --no-ansi --no-interaction --no-progress
 
 test:
     stage: test
