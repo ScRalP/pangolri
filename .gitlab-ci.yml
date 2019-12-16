@@ -44,6 +44,7 @@ test:
         - php bin/console doctrine:migrations:migrate -e pangolri --allow-no-migration
         - php bin/console doctrine:fixture:load --no-interaction -e pangolri
         - php composer.phar test-gitlab
+        - composer install --prefer-dist --no-ansi --no-interaction --no-progress
         
 performance:
   stage: performance
