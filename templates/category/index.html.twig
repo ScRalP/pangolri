@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block body %}
+    <h1>Category list</h1>
+    
+    <p>Choose a category from the list</p>
+
+    <ul class="list-group">
+    {% for category in categories %}
+        <li class="list-group-item"><a href={{ path('product_categ', {'categ':category}) }}>{{ category }}</a></li>
+    {% endfor %}
+    </ul>
+
+{% endblock %}

@@ -21,7 +21,7 @@ class ProductController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $products = [];
 
-        //On fait la recherce avec paramètre
+        //Si on recherche un produit par titre
         if( isset($_GET['search']) && $_GET['search']!=null ){
             $allProducts = $em->getRepository(Product::class)->findAll();
 
@@ -30,15 +30,46 @@ class ProductController extends AbstractController
                     array_push($products, $product);
                 }
             }
+            
+            return $this->render('product/index.html.twig', [
+                'products' => $products
+            ]);
+        }
 
-        }
-        else{ //Pas de recherche, affichage de tout les éléments
-            $products = $em->getRepository(Product::class)->findAll();
-        }
+        $products = $em->getRepository(Product::class)->findAll();
 
         return $this->render('product/index.html.twig', [
             'products' => $products
         ]);
+    }
+    
+    /**
+     * Affichage de l'ensemble des produits
+     * 
+     * @Route("/product/{categ}", name="product_categ")
+     */
+    public function getProductsByCategory($categ)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $products = [];
+
+        //Si on recherche un produit par categorie
+        if( isset($categ) ){
+            $allProducts = $em->getRepository(Product::class)->findAll();
+
+            foreach($allProducts as $product){
+                foreach($product->getCategories() as $category){
+                    if( $category == $categ ){ //Si le produit possède la catégorie
+                        array_push($products, $product);
+                        break;
+                    }
+                }
+            }
+            
+            return $this->render('product/index.html.twig', [
+                'products' => $products
+            ]);
+        }
     }
     
     /**
