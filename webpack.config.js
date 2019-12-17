@@ -29,6 +29,7 @@ Encore
 
     //JS Entry
     .addEntry('animation', './assets/js/animation.js')
+    .addEntry('formProduct', './assets/js/formProduct.js')
 
     .copyFiles({
         from: 'assets/images',

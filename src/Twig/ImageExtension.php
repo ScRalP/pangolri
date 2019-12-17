@@ -5,7 +5,7 @@ namespace App\Twig;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class ImageExistExtension extends AbstractExtension
+class ImageExtension extends AbstractExtension
 {
     private $kernelProjectDir;
 
@@ -20,15 +20,24 @@ class ImageExistExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('image_exist', array($this, 'image_exist')),
+            new TwigFunction('product_image_exist', array($this, 'product_image_exist')),
+            new TwigFunction('product_image'      , array($this, 'product_image')      ),
         ];
     }
 
     /**
-     * @param path, le nom de l'image en paramètre
+     * @param img, le nom de l'image en paramètre
      */
-    public function image_exist(string $img)
+    public function product_image_exist(string $img)
     {
         return file_exists($this->kernelProjectDir."/public/build/images/products/".$img) ? true : false;
+    }
+
+    /**
+     * Renvoie le chemin vers l'image
+     * @param img, le nom de l'image
+     */
+    public function product_image(string $img){
+        return "/build/images/products/".$img;
     }
 }

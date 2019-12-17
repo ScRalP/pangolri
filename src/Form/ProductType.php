@@ -7,7 +7,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,10 +21,13 @@ class ProductType extends AbstractType
         $builder
             ->add('title'      , TextType::class       , [ 'attr' => ['class' => 'form-control'] ])
             ->add('description', TextareaType::class   , [ 'attr' => ['class' => 'form-control'], 'required' => false ])
-            ->add('price'      , NumberType::class     , [ 'attr' => ['class' => 'form-control'] ])
+            ->add('price'      , MoneyType::class      , [ 'attr' => ['class' => 'form-control'] ])
             ->add('stock'      , IntegerType::class    , [ 'attr' => ['class' => 'form-control'] ])
             ->add('brand'      , TextType::class       , [ 'attr' => ['class' => 'form-control'], 'required' => false ])
-            ->add('images'     , CollectionType::class , [ 'entry_type' => TextType::class,       'required' => false])
+            ->add('images'     , CollectionType::class , [
+                'entry_type' => TextType::class,
+                'required' => false,
+            ])
 
             ->add('categories', EntityType::class, [
                 'class' => Category::class,

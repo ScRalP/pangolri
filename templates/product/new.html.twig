@@ -14,31 +14,46 @@
     <div class="card-body">
 
         <div class="form-group">
-            <label for="inputTitle">Title</label>
+            {{ form_label(form.title) }}
             {{ form_widget(form.title) }}
         </div>
         <div class="form-group">
-            <label for="inputDescription">Description</label>
+            {{ form_label(form.description) }}
             {{ form_widget(form.description) }}
         </div>
         <div class="form-group">
-            <label for="inputPrice">Price</label>
+            {{ form_label(form.price) }}
             {{ form_widget(form.price) }}
         </div>
         <div class="form-group">
-            <label for="inputStock">Stock</label>
+            {{ form_label(form.stock) }}
             {{ form_widget(form.stock) }}
         </div>
         <div class="form-group">
-            <label for="inputBrand">Brand</label>
+            {{ form_label(form.brand) }}
             {{ form_widget(form.brand) }}
         </div>
         <div class="form-group">
-            <label for="inputImages">Images</label>
-            {{ form_widget(form.images) }}
+            {{ form_label(form.images) }}
+
+            {{ form_errors(form.images) }}
+
+            <ul class="list-group" id="img_list">
+            {% for row in form.images %}
+                <li class="list-group-item">
+                    <div class="col-3">
+                        {{ form_errors(row) }}
+                        {{ form_widget(row) }}
+                    </div>
+                </li>
+            {% endfor %}
+            </ul>
+
         </div>
         <div class="card">
-            <div class="card-header"><label for="inputCategories">Categories</label></div>
+            <div class="card-header">
+                {{ form_label(form.categories) }}
+            </div>
             <div class="card-body">
                 {% for row in form.categories %}
                     <div>
@@ -57,4 +72,8 @@
 
 
 {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('formProduct') }}
 {% endblock %}

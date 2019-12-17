@@ -30,6 +30,6 @@ services:
     # please note that last definitions always *replace* previous ones
 
     #Custom twig extension
-    App\Twig\ImageExistExtension:
+    App\Twig\ImageExtension:
         public: false
         tags: ['twig.extension']

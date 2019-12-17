@@ -68,7 +68,7 @@ class ProductController extends AbstractController
     {
         $product = new Product();
 
-        $images = [];
+        $images = [""];
 
         $product->setImages($images);
 
