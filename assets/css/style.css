@@ -32,3 +32,8 @@ body {
     text-decoration: underline;
     transition-duration: 0.3s;
 }
+
+.big-icon{
+    width: 50px;
+    height: 50px;
+}
