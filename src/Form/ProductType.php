@@ -20,13 +20,11 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('title'      , TextType::class       , [ 'attr' => ['class' => 'form-control'] ])
-            ->add('description', TextareaType::class   , [ 'attr' => ['class' => 'form-control'] ])
+            ->add('description', TextareaType::class   , [ 'attr' => ['class' => 'form-control'], 'required' => false ])
             ->add('price'      , NumberType::class     , [ 'attr' => ['class' => 'form-control'] ])
             ->add('stock'      , IntegerType::class    , [ 'attr' => ['class' => 'form-control'] ])
             ->add('brand'      , TextType::class       , [ 'attr' => ['class' => 'form-control'], 'required' => false ])
-            ->add('images'     , CollectionType::class , [
-                'entry_type' => TextType::class,
-                ])
+            ->add('images'     , CollectionType::class , [ 'entry_type' => TextType::class,       'required' => false])
 
             ->add('categories', EntityType::class, [
                 'class' => Category::class,

@@ -68,6 +68,10 @@ class ProductController extends AbstractController
     {
         $product = new Product();
 
+        $images = [];
+
+        $product->setImages($images);
+
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 

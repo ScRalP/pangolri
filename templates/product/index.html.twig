@@ -13,12 +13,16 @@
         <div class="card shadow">
 
             {# afficher l'image sinon mettre une image "?" #}
-            {% for image in product.images %}
-                <!-- Card image -->
-                <img class="card-img-top" src='build/images/products/{{image}}' alt='{{image}}'>
+            {% if product.images %} {# On verifie si il y a des images #}
+                {% if image_exist( products.images|first ) %} {# On verifie si la première image est valide #}
+                    <!-- Card image -->
+                    <img class="card-img-top" src='build/images/products/{{products.images|first}}' alt='{{products.images|first}}'>
+                {% else %}
+                    <img class="card-img-top" src={{ asset('build/images/products/unknown.png') }} alt='unknown product'>
+                {% endif %}
             {% else %}
                 <img class="card-img-top" src={{ asset('build/images/products/unknown.png') }} alt='unknown product'>
-            {% endfor %}
+            {% endif %}
 
             <!-- Card content -->
             <div class="card-body">
