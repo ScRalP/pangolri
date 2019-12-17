@@ -44,9 +44,10 @@ class ProductController extends AbstractController
     }
     
     /**
-     * Affichage de l'ensemble des produits
+     * Affichage de l'ensemble des produits faisant partis d'une catégorie
      * 
-     * @Route("/product/{categ}", name="product_categ")
+     * @Route("/product/category/{categ}", name="product_categ")
+     * @param categ, la catégorie que dont l'on souhaite voir les produits
      */
     public function getProductsByCategory($categ)
     {
@@ -59,8 +60,8 @@ class ProductController extends AbstractController
 
             foreach($allProducts as $product){
                 foreach($product->getCategories() as $category){
-                    if( $category == $categ ){ //Si le produit possède la catégorie
-                        array_push($products, $product);
+                    if( $category == $categ ){           //Si le produit possède la catégorie
+                        array_push($products, $product); //On l'ajoute à la liste
                         break;
                     }
                 }
