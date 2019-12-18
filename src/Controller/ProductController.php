@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\Category;
 use App\Form\ProductType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,6 +21,12 @@ class ProductController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $products = [];
+
+        $categories = [];
+        $categories = $em->getRepository(Category::class)->findAll();
+
+        print_r($categories);
+        die();
 
         //Si on recherche un produit par titre
         if( isset($_GET['search']) && $_GET['search']!=null ){
@@ -39,7 +46,8 @@ class ProductController extends AbstractController
         $products = $em->getRepository(Product::class)->findAll();
 
         return $this->render('product/index.html.twig', [
-            'products' => $products
+            'products'   => $products,
+            'categories' => $categories,
         ]);
     }
     
