@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Product;
-use App\Entity\Category;
 use App\Form\ProductType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -105,8 +104,12 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ( $form->isSubmitted() && $form->isValid() ) {
-            $product = $form->getExtraData();
 
+            $images = $form->get('images')->getExtraData();
+            
+            $product = $form->getData();
+
+            $product->setImages($images);
             $product->setRate(0);
 
             $entityManager = $this->getDoctrine()->getManager();

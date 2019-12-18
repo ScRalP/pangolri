@@ -21,6 +21,7 @@
                     {% set break = true %} {# Une fois qu'on trouve une image valide on break pour n'afficher que celle ci #}
                 {% else %}
                     <img class="card-img-top" src="{{ product_image('unknown.png') }}" alt="unknown_product">
+                    {% set break = true %} {# Une fois qu'on trouve une image valide on break pour n'afficher que celle ci #}
                 {% endif %}
 
             {% else %} {##}
@@ -42,6 +43,11 @@
             </div>
 
         </div>
+        
+        {# Ajout d'un bouton supprimer pour les admin #}
+        {% if is_granted('ROLE_ADMIN') %}
+            <button class="btn btn-danger" id="delete_{{product.id}}">Delete</button>
+        {% endif %}
     <!-- Card -->
     </div>
 {% else %}

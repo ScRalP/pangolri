@@ -27,16 +27,6 @@
             {{ form_errors(form.images) }}
 
             <ul class="list-group" id="img_list">
-            {% for row in form.images %}
-                <li class="list-group-item" id="image_0">
-                    <div class="row">
-                        <div class="col-7">
-                            {{ form_errors(row) }}
-                            {{ form_widget( row, {'attr': {'class': 'form-control'}} ) }}
-                        </div>
-                    </div>
-                </li>
-            {% endfor %}
             </ul>
         </div>
         
@@ -52,7 +42,6 @@
                 {% endfor %}
             </div>
         </div>
-            
     </div>
 
     {{ form_widget(form.save) }}
