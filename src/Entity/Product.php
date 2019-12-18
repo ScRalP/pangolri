@@ -21,7 +21,7 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @Assert\Length(max=100, maxMessage="Le titre est trop long, veuillez ne pas depasser les 100 caractères")
+     * @Assert\Length(max=100, maxMessage="Please don't exceed 100 characters")
      */
     private $title;
 

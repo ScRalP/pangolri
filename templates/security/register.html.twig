@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<form method="post">
+
+    <div class="card">
+        <div class="card-header">
+            <h1>Create your account !</h1>
+        </div>
+
+        <div class="card-body">
+            {{ form_row(form.username) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.cellphone) }}
+            {{ form_row(form.first_name) }}
+            {{ form_row(form.last_name) }}
+            {{ form_row(form.age) }}
+            {{ form_row(form.address) }}
+            {{ form_row(form.password) }}
+            {{ form_row(form.save) }}
+        </div>
+    </div>
+</form>
+{% endblock %}
