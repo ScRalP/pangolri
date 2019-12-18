@@ -5,17 +5,15 @@
         <title>{% block title %}{% endblock %} - Pangolri</title>
 
         {% block stylesheets %}
-
             {{ encore_entry_link_tags('bootstrap') }}
             {{ encore_entry_link_tags('style') }}
-            
         {% endblock %}
     </head>
     <body>
         {% include 'inc/navbar.html.twig' %}
 
-        <div class="container">
-            <div class="container-fluid">
+        <div class="container" id="wrap">
+            <div class="container-fluid" id="main">
                 {% block body %}{% endblock %}
             </div>
         </div>
