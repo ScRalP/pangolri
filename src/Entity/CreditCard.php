@@ -39,7 +39,7 @@ class CreditCard
     private $expiration;
 
     /**
-     * @ORM\ManyToMany(targetEntity="\App\Entity\Payment", mappedBy="credit_cards")
+     * @ORM\OneToMany(targetEntity="\App\Entity\Payment", mappedBy="credit_card")
      */
     private $payments;
 
@@ -113,7 +113,7 @@ class CreditCard
     {
         if (!$this->payments->contains($payment)) {
             $this->payments[] = $payment;
-            $payment->addCreditCard($this);
+            $payment->setCreditCard($this);
         }
 
         return $this;
@@ -123,7 +123,10 @@ class CreditCard
     {
         if ($this->payments->contains($payment)) {
             $this->payments->removeElement($payment);
-            $payment->removeCreditCard($this);
+            // set the owning side to null (unless already changed)
+            if ($payment->getCreditCard() === $this) {
+                $payment->setCreditCard(null);
+            }
         }
 
         return $this;

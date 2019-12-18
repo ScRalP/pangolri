@@ -19,7 +19,7 @@ class Wishlist
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="\App\Entity\Product", mappedBy="wishlists")
+     * @ORM\OneToMany(targetEntity="\App\Entity\Product", mappedBy="wishlist")
      */
     private $products;
 
@@ -46,26 +46,6 @@ class Wishlist
         return $this->products;
     }
 
-    public function addProduct(Product $product): self
-    {
-        if (!$this->products->contains($product)) {
-            $this->products[] = $product;
-            $product->addWishlist($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        if ($this->products->contains($product)) {
-            $this->products->removeElement($product);
-            $product->removeWishlist($this);
-        }
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -79,6 +59,29 @@ class Wishlist
         $newWishlist = null === $user ? null : $this;
         if ($user->getWishlist() !== $newWishlist) {
             $user->setWishlist($newWishlist);
+        }
+
+        return $this;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setWishlist($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
+            // set the owning side to null (unless already changed)
+            if ($product->getWishlist() === $this) {
+                $product->setWishlist(null);
+            }
         }
 
         return $this;

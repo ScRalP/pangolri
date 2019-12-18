@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
@@ -20,6 +21,7 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\Length(max=100, maxMessage="Le titre est trop long, veuillez ne pas depasser les 100 caractères")
      */
     private $title;
 
@@ -62,6 +64,16 @@ class Product
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="product")
      */
     private $comments;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cart", inversedBy="products")
+     */
+    private $cart;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Wishlist", inversedBy="products")
+     */
+    private $wishlist;
 
     public function __construct()
     {
@@ -212,6 +224,30 @@ class Product
                 $comment->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCart(): ?Cart
+    {
+        return $this->cart;
+    }
+
+    public function setCart(?Cart $cart): self
+    {
+        $this->cart = $cart;
+
+        return $this;
+    }
+
+    public function getWishlist(): ?Wishlist
+    {
+        return $this->wishlist;
+    }
+
+    public function setWishlist(?Wishlist $wishlist): self
+    {
+        $this->wishlist = $wishlist;
 
         return $this;
     }

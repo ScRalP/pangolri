@@ -37,7 +37,7 @@ class Order
     private $delivery;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\App\Entity\Payment", inversedBy="orders")
+     * @ORM\OneToOne(targetEntity="\App\Entity\Payment", inversedBy="order")
      */
     private $payment;
 

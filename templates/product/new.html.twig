@@ -2,6 +2,8 @@
 
 {% block title %}New product{% endblock %}
 
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
 {% block body %}
 
 {{ form_start(form) }}
@@ -13,26 +15,11 @@
 
     <div class="card-body">
 
-        <div class="form-group">
-            {{ form_label(form.title) }}
-            {{ form_widget(form.title) }}
-        </div>
-        <div class="form-group">
-            {{ form_label(form.description) }}
-            {{ form_widget(form.description) }}
-        </div>
-        <div class="form-group">
-            {{ form_label(form.price) }}
-            {{ form_widget(form.price) }}
-        </div>
-        <div class="form-group">
-            {{ form_label(form.stock) }}
-            {{ form_widget(form.stock) }}
-        </div>
-        <div class="form-group">
-            {{ form_label(form.brand) }}
-            {{ form_widget(form.brand) }}
-        </div>
+        {{ form_row(form.title) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.price) }}
+        {{ form_row(form.stock) }}
+        {{ form_row(form.brand) }}
         <div class="form-group" id="list_holder">
             {{ form_label(form.images) }}
 
@@ -50,8 +37,8 @@
                 </li>
             {% endfor %}
             </ul>
-
         </div>
+        
         <div class="card">
             <div class="card-header">
                 {{ form_label(form.categories) }}
@@ -59,7 +46,7 @@
             <div class="card-body">
                 {% for row in form.categories %}
                     <div>
-                        <label for="inputCategories">{{ form_widget(row) }} {{row.vars.label}}</label>
+                        <label for="inputCategories">{{ form_widget(row) }}</label>
                     </div>
                 {% endfor %}
             </div>
@@ -67,9 +54,7 @@
             
     </div>
 
-    <div class="card-footer">
-        {{ form_widget(form.save) }}
-    </div>
+    {{ form_widget(form.save) }}
 </div>
 
 

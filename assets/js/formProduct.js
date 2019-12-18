@@ -2,7 +2,7 @@
 
 var $collectionHolder;
 
-var $addNewItem = $('<a class="btn btn-info m-2 col-12">Add new image</a>')
+var $addNewItem = $('<a class="btn btn-primary m-2 col-12">Add new image</a>')
 
 $(document).ready( function(){
     //Recuperer le collectionHolder
@@ -31,9 +31,13 @@ function addNewForm(){
     var prototype = '<li class="list-group-item" id="image___name__"><div class="row"><div class="col-7"><input type="text" id="product_images___name__" name="product[images][__name__]" class="form-control" /></div></div></li>'
 
     var index = $collectionHolder.data('index')
+    
     //remplacer les __name__ par la valeur actuelle
-    var newForm = prototype.replace('/__name__/g', index)
-    newForm = $(newForm)
+    var form = prototype.replace(/__name__/g, index)
+
+    //transforme la chaine en objet jquery
+    var newForm = $(form)
+
     $collectionHolder.data('index', index++)
     addRemoveButton(newForm)
 
