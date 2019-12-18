@@ -1,9 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DefaultController!{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block body %}
-    <h1>Pangolri</h1>
-    <h2>Page d'accueil</h2>
-    <p>texte</p>
+    <h1>Welcome to pangolri !</h1>
+
+    <p>
+        Welcome to pangolri, pangolri is a cool website where you can buy cool things!!
+    </p>
+
+    <p>
+        Just click the <strong>Cool Button</strong> below to have cool experience and find your happiness!
+    </p>
+
+    <div class="row">
+        <a class="btn btn-primary btn-cool col-10 offset-1 my-5" href={{ path('product_list') }}>Cool Button</a>
+    </div>
+
+    <p>
+        You can also check our other cool website <a href="https://www.amazon.fr/">right here</a>! Have fun and stay cool!!
+    </p>
 {% endblock %}

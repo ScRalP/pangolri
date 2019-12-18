@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Products{% endblock %}
+
+{% block body %}
+
+<h1>Product list !</h1>
+
+<div class="row">
+{% for product in products %}
+    <div id="{{ product.id }}" class="product-container col-3 my-3">
+        <!-- Card -->
+        <div class="card shadow">
+
+            {# afficher l'image sinon mettre une image "?" #}
+            {% set break = false %}
+            {% for image in product.images if not break %}{# on parcours toute les images du produit #}
+                {% if product_image_exist( image ) %} {# On regarde si l'image est valide #}
+                    <!-- Card image -->
+                    <img class="card-img-top" src="{{ product_image(image) }}" alt="{{ product_image(image) }}">
+                    {% set break = true %} {# Une fois qu'on trouve une image valide on break pour n'afficher que celle ci #}
+                {% else %}
+                    <img class="card-img-top" src="{{ product_image('unknown.png') }}" alt="unknown_product">
+                    {% set break = true %} {# Une fois qu'on trouve une image valide on break pour n'afficher que celle ci #}
+                {% endif %}
+
+            {% else %} {##}
+                <img class="card-img-top" src="{{ product_image('unknown.png') }}" alt="unknown_product">
+            {% endfor %}
+
+            <!-- Card content -->
+            <div class="card-body">
+
+                <!-- Title -->
+                <h4 class="card-title"><a href={{ path('show_product', {'id' : product.id}) }}>{{ product.title }}</a></h4>
+                <!-- Text -->
+                <p class="card-text">{{ product.description }}</p>
+                {% for category in product.categories %}
+                    <span class="badge badge-secondary">{{category}}</span>
+                {% endfor %}
+
+                <label class="">
+            </div>
+
+        </div>
+        
+        {# Ajout d'un bouton supprimer pour les admin #}
+        {% if is_granted('ROLE_ADMIN') %}
+            <button class="btn btn-danger" id="delete_{{product.id}}">Delete</button>
+        {% endif %}
+    <!-- Card -->
+    </div>
+{% else %}
+    <p>No product to display</p>
+{% endfor %}
+</div>
+
+{% endblock %}

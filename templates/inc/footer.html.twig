@@ -1,0 +1,40 @@
+<a href="#" class="go-top"><i class="fas fa-chevron-up fa-lg"></i></a>
+
+<!-- Footer -->
+<footer class="footer page-footer font-small bg-secondary text-white mt-5 p-3">
+
+    <div class="container-fluid">
+        <div class="row">
+            <img class="col-1" src={{ asset('build/images/pangolri.png') }}>
+            <ul class="list-group col-3 offset-2 text-center">
+                <a href={{ path('home') }}><li class="list-group-item list-group-item-secondary"><i class="fas fa-home"></i> Home</li></a>
+                <a href={{ path('product_list') }}><li class="list-group-item list-group-item-secondary">Products</li></a>
+                <a href={{ path('category_list') }}><li class="list-group-item list-group-item-secondary">Categories</li></a>
+            </ul>
+            <ul class="list-group col-3 list-unstyled text-center ">
+
+                {% if app.user %}
+                    <a href={{ path('home') }}><li class="list-group-item list-group-item-secondary"><i class="fas fa-user"></i> My account</li></a>
+                {% else %}
+                    <a href={{ path('app_login') }}><li class="list-group-item list-group-item-secondary"><i class="fas fa-sign-in-alt"></i> Login</li></a>
+                {% endif %}
+
+                <a href={{ path('home') }}><li class="list-group-item list-group-item-secondary"><i class="fas fa-shopping-cart"></i> Cart</li></a>
+                <a href={{ path('home') }}><li class="list-group-item list-group-item-secondary"><i class="fas fa-envelope"></i> Contact us</li></a>
+            
+            </ul>
+        </div>
+    </div>
+
+  <div class="footer-copyright text-center py-3">
+    © 2018 Copyright: Pangolteam
+  </div>
+
+</footer>
+<!-- Footer -->
+
+{% block javascript %}
+
+    {{ encore_entry_script_tags('animation') }}
+
+{% endblock %}

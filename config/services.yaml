@@ -6,8 +6,11 @@
 parameters:
 
 services:
+
     # default configuration for services in *this* file
     _defaults:
+        bind :
+            $kernelProjectDir : "%kernel.project_dir%"
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
@@ -25,3 +28,8 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    #Custom twig extension
+    App\Twig\ImageExtension:
+        public: false
+        tags: ['twig.extension']

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New product{% endblock %}
+
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+{{ form_start(form) }}
+
+<div class="card">
+    <div class="card-header">
+        <h1>New product</h1>
+    </div>
+
+    <div class="card-body">
+
+        {{ form_row(form.title) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.price) }}
+        {{ form_row(form.stock) }}
+        {{ form_row(form.brand) }}
+        <div class="form-group" id="list_holder">
+            {{ form_label(form.images) }}
+            {{ form_widget(form.images) }}
+
+            {{ form_errors(form.images) }}
+
+            <ul class="list-group" id="img_list">
+            </ul>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                {{ form_label(form.categories) }}
+            </div>
+            <div class="card-body">
+                {% for row in form.categories %}
+                    <div>
+                        <label for="inputCategories">{{ form_widget(row) }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {{ form_widget(form.save) }}
+</div>
+
+
+{{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('formProduct') }}
+{% endblock %}
