@@ -101,15 +101,11 @@ class ProductController extends AbstractController
     {
         $product = new Product();
 
-        $images = [""];
-
-        $product->setImages($images);
-
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ( $form->isSubmitted() && $form->isValid() ) {
-            $product = $form->getData();
+            $product = $form->getExtraData();
 
             $product->setRate(0);
 

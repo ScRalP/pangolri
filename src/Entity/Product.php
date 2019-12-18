@@ -135,6 +135,12 @@ class Product
         return $this;
     }
 
+    public function addImage(string $image){
+        $this->images[] = $image;
+
+        return $this;
+    }
+
     public function getStock(): ?int
     {
         return $this->stock;

@@ -27,6 +27,7 @@ class ProductType extends AbstractType
             ->add('images'     , CollectionType::class , [
                 'entry_type' => TextType::class,
                 'required' => false,
+                'allow_extra_fields' => true,
             ])
 
             ->add('categories', EntityType::class, [

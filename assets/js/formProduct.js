@@ -38,7 +38,7 @@ function addNewForm(){
     //transforme la chaine en objet jquery
     var newForm = $(form)
 
-    $collectionHolder.data('index', index++)
+    $collectionHolder.data('index', index+1)
     addRemoveButton(newForm)
 
     $collectionHolder.append(newForm)
