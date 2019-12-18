@@ -22,12 +22,6 @@ class ProductController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $products = [];
 
-        $categories = [];
-        $categories = $em->getRepository(Category::class)->findAll();
-
-        print_r($categories);
-        die();
-
         //Si on recherche un produit par titre
         if( isset($_GET['search']) && $_GET['search']!=null ){
             $allProducts = $em->getRepository(Product::class)->findAll();
@@ -47,7 +41,6 @@ class ProductController extends AbstractController
 
         return $this->render('product/index.html.twig', [
             'products'   => $products,
-            'categories' => $categories,
         ]);
     }
     
