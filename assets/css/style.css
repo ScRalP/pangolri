@@ -36,3 +36,24 @@ body {
 .btn-cool{
     font-size: 10em;
 }
+
+/* -----------------------------------------------------------------*/
+/*                          SLIDE SHOW                              */
+/* -----------------------------------------------------------------*/
+
+* {box-sizing:border-box}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+/* -----------------------------------------------------------------*/
+/*                         END SLIDE SHOW                           */
+/* -----------------------------------------------------------------*/

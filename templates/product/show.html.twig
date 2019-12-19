@@ -14,24 +14,36 @@
 
     <div class="card-body">
         <div class="row">
-            <div class="col-6">
-                <p>{{ product.description }}</p>
-            </div>
+            <p>{{ product.description }}</p>
+        </div>
 
-            {% for image in product.images %}
-                <div class="col-6">
-                    <img class="card-img-top" src={{ product_image(image) }} alt={{ image }}>
+        <div class="row text-center">
+
+            {% if product.images %}
+                <!-- Slideshow container -->
+                <div class="slideshow-container border">
+                
+                    {% for image in product.images %}
+                        <div class="mySlides">
+                            <img src={{ product_image(image) }} alt={{ image }}>
+                        </div>
+                    {% endfor %}
+
+                    <button class="btn btn-primary" id="slideshow_prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="btn btn-primary" id="slideshow_next"><i class="fas fa-chevron-right"></i></button>
                 </div>
-            {% endfor %}
+            {% endif %}
 
         </div>
+
     </div>
 </div>
 
 
-<a class="btn btn-primary mt-3" href={{ path('product_list') }}>Retour aux produits</a>
-<button name="ajoutPanier" onclick="{{ path('Add_Product', {'id' : product.id}) }}"
 
-<a href={{ path('product_list') }}>Retour aux produits</a>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('slideShow') }}
 {% endblock %}
