@@ -125,4 +125,56 @@ class ProductController extends AbstractController
     }
 
     
+    /**
+     * Edit un produit
+     * 
+     * @Route("/product/edit/{id}", name="edit_product", requirements={"id"="\d+"})
+     * @param Request $request
+     * @param id $id, l'id du produit à modifier
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function edit(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $product = $em->getRepository(Product::class)->findOneBy(['id'=>$id]);
+
+        dump($product);
+        die();
+
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
+
+        if ( $form->isSubmitted() && $form->isValid() ) {
+
+            $images = $form->get('images')->getExtraData();
+            
+            $product = $form->getData();
+
+            $product->setImages($images);
+            $product->setRate(0);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($product);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('product_list');
+        }
+
+        return $this->render('product/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * Supprime un  produit
+     * 
+     * @Route("/product/delete/{id}", name="delete_product", requirements={"id"="\d+"})
+     * @param id $id, l'id du produit à supprimer
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function delete($id)
+    {
+        return $this->render('product/index.html.twig');
+    }
+
 }

@@ -34,4 +34,12 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        # - { path: ^/product/new, roles: ROLE_ADMIN }
+        # Sécuriser l'acces à l'ajout, l'édition et la suppression de produits
+        - { path: ^/product/new     , roles: ROLE_ADMIN }
+        - { path: ^/product/edit/*  , roles: ROLE_ADMIN }
+        - { path: ^/product/delete/*, roles: ROLE_ADMIN }
+
+        # Sécuriser l'acces à l'ajout, l'édition et la suppression de categories
+        - { path: ^/category/new     , roles: ROLE_ADMIN }
+        - { path: ^/category/edit/*  , roles: ROLE_ADMIN }
+        - { path: ^/category/delete/*, roles: ROLE_ADMIN }
