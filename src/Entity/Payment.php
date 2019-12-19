@@ -29,14 +29,14 @@ class Payment
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="\App\Entity\Order", mappedBy="payment")
+     * @ORM\OneToOne(targetEntity="\App\Entity\Order", mappedBy="payment")
      */
-    private $orders;
+    private $order;
 
     /**
-     * @ORM\ManyToMany(targetEntity="\App\Entity\CreditCard", mappedBy="payments")
+     * @ORM\ManyToOne(targetEntity="\App\Entity\CreditCard", inversedBy="payments")
      */
-    private $credit_cards;
+    private $credit_card;
 
     public function __construct()
     {
@@ -88,29 +88,6 @@ class Payment
         return $this;
     }
 
-    public function addOrder(Order $order): self
-    {
-        if (!$this->orders->contains($order)) {
-            $this->orders[] = $order;
-            $order->setPayment($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrder(Order $order): self
-    {
-        if ($this->orders->contains($order)) {
-            $this->orders->removeElement($order);
-            // set the owning side to null (unless already changed)
-            if ($order->getPayment() === $this) {
-                $order->setPayment(null);
-            }
-        }
-
-        return $this;
-    }
-
     /**
      * @return Collection|CreditCard[]
      */
@@ -134,6 +111,59 @@ class Payment
         if ($this->credit_cards->contains($creditCard)) {
             $this->credit_cards->removeElement($creditCard);
             $creditCard->removePayment($this);
+        }
+
+        return $this;
+    }
+
+    public function getCreditCard(): ?CreditCard
+    {
+        return $this->credit_card;
+    }
+
+    public function setCreditCard(?CreditCard $credit_card): self
+    {
+        $this->credit_card = $credit_card;
+
+        return $this;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setPayment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->contains($order)) {
+            $this->orders->removeElement($order);
+            // set the owning side to null (unless already changed)
+            if ($order->getPayment() === $this) {
+                $order->setPayment(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getOrder(): ?Order
+    {
+        return $this->order;
+    }
+
+    public function setOrder(?Order $order): self
+    {
+        $this->order = $order;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newPayment = null === $order ? null : $this;
+        if ($order->getPayment() !== $newPayment) {
+            $order->setPayment($newPayment);
         }
 
         return $this;

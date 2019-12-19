@@ -24,7 +24,7 @@ class Cart
     private $price;
 
     /**
-     * @ORM\ManyToMany(targetEntity="\App\Entity\Product", mappedBy="carts")
+     * @ORM\OneToMany(targetEntity="\App\Entity\Product", mappedBy="cart")
      */
     private $products;
 
@@ -68,26 +68,6 @@ class Cart
         return $this->products;
     }
 
-    public function addProduct(Product $product): self
-    {
-        if (!$this->products->contains($product)) {
-            $this->products[] = $product;
-            $product->addCart($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        if ($this->products->contains($product)) {
-            $this->products->removeElement($product);
-            $product->removeCart($this);
-        }
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -114,6 +94,29 @@ class Cart
     public function setOrder(?Order $order): self
     {
         $this->order = $order;
+
+        return $this;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setCart($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
+            // set the owning side to null (unless already changed)
+            if ($product->getCart() === $this) {
+                $product->setCart(null);
+            }
+        }
 
         return $this;
     }

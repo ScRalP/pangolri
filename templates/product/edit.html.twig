@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New product{% endblock %}
+{% block title %}Edit product{% endblock %}
 
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
 
@@ -10,7 +10,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h1>New product</h1>
+        <h1>Edit product</h1>
     </div>
 
     <div class="card-body">
@@ -26,7 +26,6 @@
 
             {{ form_errors(form.images) }}
 
-            {# Liste ou on ajoute tout les champs de saisie des images (voir formProduct.js) #}
             <ul class="list-group" id="img_list">
             </ul>
         </div>
@@ -47,7 +46,6 @@
 
     {{ form_widget(form.save) }}
 </div>
-
 
 {{ form_end(form) }}
 {% endblock %}

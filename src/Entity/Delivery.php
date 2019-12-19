@@ -32,12 +32,12 @@ class Delivery
     private $price;
     
     /**
-     * @ORM\OneToOne(targetEntity="\App\Entity\Order", mappedBy="delivery")
+     * @ORM\OneToOne(targetEntity="\App\Entity\Order", inversedBy="delivery")
      */
     private $order;
     
     /**
-     * @ORM\ManyToOne(targetEntity="\App\Entity\User", inversedBy="delivery")
+     * @ORM\ManyToOne(targetEntity="\App\Entity\User", inversedBy="deliveries")
      */
     private $user;
 
@@ -90,12 +90,6 @@ class Delivery
     public function setOrder(?Order $order): self
     {
         $this->order = $order;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newDelivery = null === $order ? null : $this;
-        if ($order->getDelivery() !== $newDelivery) {
-            $order->setDelivery($newDelivery);
-        }
 
         return $this;
     }
