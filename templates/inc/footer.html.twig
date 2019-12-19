@@ -8,18 +8,19 @@
             <img class="col-1" src={{ asset('build/images/pangolri.png') }}>
             <ul class="list-group col-3 offset-2 text-center">
                 <a href={{ path('home') }}><li class="list-group-item list-group-item-secondary"><i class="fas fa-home"></i> Home</li></a>
+                <a href={{ path('home') }}><li class="list-group-item list-group-item-secondary"><i class="fas fa-shopping-cart"></i> Cart</li></a> {# @Todo - Changer la redirection #}
                 <a href={{ path('product_list') }}><li class="list-group-item list-group-item-secondary"><i class="fas fa-shopping-bag"></i> Products</li></a>
             </ul>
             <ul class="list-group col-3 list-unstyled text-center ">
 
                 {% if app.user %}
                     <a href={{ path('home') }}><li class="list-group-item list-group-item-secondary"><i class="fas fa-user"></i> My account</li></a>
+                    <a href={{ path('home') }}><li class="list-group-item list-group-item-secondary"><i class="far fa-list-alt"></i> My wishlists</li></a> {# @Todo - Changer la redirection #}
                 {% else %}
                     <a href={{ path('app_login') }}><li class="list-group-item list-group-item-secondary"><i class="fas fa-sign-in-alt"></i> Login</li></a>
                 {% endif %}
 
-                <a href={{ path('home') }}><li class="list-group-item list-group-item-secondary"><i class="fas fa-shopping-cart"></i> Cart</li></a>
-                <a href={{ path('home') }}><li class="list-group-item list-group-item-secondary"><i class="fas fa-envelope"></i> Contact us</li></a>
+                <a href={{ path('home') }}><li class="list-group-item list-group-item-secondary"><i class="fas fa-envelope"></i> Contact us</li></a> {# @Todo - Changer la redirection #}
             
             </ul>
         </div>
