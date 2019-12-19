@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\Product;
+use App\Entity\Cart;
 use App\Form\ProductType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -59,6 +60,24 @@ class ProductController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $product = $em->getRepository(Product::class)->find($id);
+
+        return $this->render('product/show.html.twig', [
+            'product' => $product
+        ]);
+    }
+
+    /**
+     * Affichage de la fiche d'un produit
+     * 
+     * @Route("/product/{id}", name="Add_product", requirements={"id"="\d+"})
+     */
+    public function show_product(int $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $product = $em->getRepository(Product::class)->find($id);
+        $cart = new Cart();
+
 
         return $this->render('product/show.html.twig', [
             'product' => $product

@@ -10,6 +10,8 @@
 
 <p>{{ product.price }}</p>
 
+<button name="ajoutPanier" onclick="{{ path('Add_Product', {'id' : product.id}) }}"
+
 <a href={{ path('product_list') }}>Retour aux produits</a>
 
 {% endblock %}
