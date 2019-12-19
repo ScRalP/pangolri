@@ -24,9 +24,9 @@ class Cart
     private $price;
 
     /**
-     * @ORM\OneToMany(targetEntity="\App\Entity\Product", mappedBy="cart")
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductCart", mappedBy="cart")
      */
-    private $products;
+    private $product_cart;
 
     /**
      * @ORM\OneToOne(targetEntity="\App\Entity\User", mappedBy="cart")
@@ -41,6 +41,7 @@ class Cart
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->product_cart = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -102,7 +103,7 @@ class Cart
     {
         if (!$this->products->contains($product)) {
             $this->products[] = $product;
-            $product->setCart($this);
+            $product->addCart($this);
         }
 
         return $this;
@@ -112,9 +113,37 @@ class Cart
     {
         if ($this->products->contains($product)) {
             $this->products->removeElement($product);
+            $product->removeCart($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductCart[]
+     */
+    public function getProductCart(): Collection
+    {
+        return $this->product_cart;
+    }
+
+    public function addProductCart(ProductCart $productCart): self
+    {
+        if (!$this->product_cart->contains($productCart)) {
+            $this->product_cart[] = $productCart;
+            $productCart->setCart($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductCart(ProductCart $productCart): self
+    {
+        if ($this->product_cart->contains($productCart)) {
+            $this->product_cart->removeElement($productCart);
             // set the owning side to null (unless already changed)
-            if ($product->getCart() === $this) {
-                $product->setCart(null);
+            if ($productCart->getCart() === $this) {
+                $productCart->setCart(null);
             }
         }
 
