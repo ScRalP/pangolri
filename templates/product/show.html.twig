@@ -14,26 +14,28 @@
 
     <div class="card-body">
         <div class="row">
-            <p>{{ product.description }}</p>
-        </div>
+            <div class="col-6">
+                <p>{{ product.description }}</p>
+            </div>
 
-        <div class="row text-center">
+            <div class="col-6 text-center">
 
-            {% if product.images %}
-                <!-- Slideshow container -->
-                <div class="slideshow-container border">
-                
-                    {% for image in product.images %}
-                        <div class="mySlides">
-                            <img src={{ product_image(image) }} alt={{ image }}>
-                        </div>
-                    {% endfor %}
+                {% if product.images %}
+                    <!-- Slideshow container -->
+                    <div class="slideshow-container border">
+                    
+                        {% for image in product.images %}
+                            <div class="mySlides">
+                                <img src={{ product_image(image) }} alt={{ image }}>
+                            </div>
+                        {% endfor %}
 
-                    <button class="btn btn-primary" id="slideshow_prev"><i class="fas fa-chevron-left"></i></button>
-                    <button class="btn btn-primary" id="slideshow_next"><i class="fas fa-chevron-right"></i></button>
-                </div>
-            {% endif %}
+                        <button class="btn btn-primary" id="slideshow_prev"><i class="fas fa-chevron-left"></i></button>
+                        <button class="btn btn-primary" id="slideshow_next"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                {% endif %}
 
+            </div>
         </div>
 
     </div>

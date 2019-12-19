@@ -11,32 +11,25 @@ use App\Entity\ProductCart;
 
 class CartController extends AbstractController
 {
-
-    private $products;
     /**
      * @Route("/cart", name="cart")
      */
     public function index()
     {
-        $em = $this->getDoctrine()->getManager();
-
-
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $productCart = $user->getCart()->getProductCart();
-        foreach($productCart as $nbProducts){
-            $products []= $nbProducts->getProduct();
-        }
+        $cartProducts = $user->getCart()->getProductCart();
+
 
         return $this->render('cart/index.html.twig', [
             'controller_name' => 'CartController',
-            'cartUser' => $products
+            'cartProducts' => $cartProducts
         ]);
     }
 
     /**
      * Affichage de la fiche d'un produit
      * 
-     * @Route("/product/{id}", name="add_product", requirements={"id"="\d+"})
+     * @Route("/product/add/{id}", name="add_product", requirements={"id"="\d+"})
      */
     public function add_product(int $id)
     {

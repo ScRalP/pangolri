@@ -112,7 +112,6 @@ class Cart
         if (!$this->product_cart->contains($productCart)) {
             $this->product_cart[] = $productCart;
             $productCart->setCart($this);
-            $productCart->setQuantity(1);
         }
 
         return $this;
