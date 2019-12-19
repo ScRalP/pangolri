@@ -2,6 +2,22 @@
 
 {% block title %}Products{% endblock %}
 
+{% block prebody %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary border-top border-black">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_categ" aria-controls="navbar_categ" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar_categ">
+        <ul class="navbar-nav mr-auto">
+            {% for category in categories %}
+                <li class="nav-item"><a class="nav-link" href="{{ path('product_categ', {'categ':category.name}) }}">{{ category.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</nav>
+{% endblock %}
+
 {% block body %}
 
 <div class="row">
@@ -29,7 +45,7 @@
                         {% set break = true %} {# Une fois qu'on trouve une image valide on break pour n'afficher que celle ci #}
                     {% endif %}
 
-                {% else %} {##}
+                {% else %}
                     <img class="card-img-top" src="{{ product_image('unknown.png') }}" alt="unknown_product">
                 {% endfor %}
 

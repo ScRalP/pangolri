@@ -19,8 +19,8 @@ class ProductController extends AbstractController
     public function index(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $products   = [];
         $categories = $em->getRepository(Category::class)->findAll();
+        $products   = [];
 
         //Si on recherche un produit par titre
         if( isset($_GET['search']) && $_GET['search']!=null ){
@@ -41,7 +41,8 @@ class ProductController extends AbstractController
         $products   = $em->getRepository(Product::class)->findAll();
 
         return $this->render('product/index.html.twig', [
-            'products' => $products,
+            'products'   => $products,
+            'categories' => $categories
         ]);
     }
     
@@ -54,6 +55,7 @@ class ProductController extends AbstractController
     public function getProductsByCategory($categ)
     {
         $em = $this->getDoctrine()->getManager();
+        $categories = $em->getRepository(Category::class)->findAll();
         $products = [];
 
         //Si on recherche un produit par categorie
@@ -70,7 +72,8 @@ class ProductController extends AbstractController
             }
             
             return $this->render('product/index.html.twig', [
-                'products' => $products
+                'products' => $products,
+                'categories' => $categories
             ]);
         }
     }
