@@ -99,26 +99,6 @@ class Cart
         return $this;
     }
 
-    public function addProduct(Product $product): self
-    {
-        if (!$this->products->contains($product)) {
-            $this->products[] = $product;
-            $product->addCart($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        if ($this->products->contains($product)) {
-            $this->products->removeElement($product);
-            $product->removeCart($this);
-        }
-
-        return $this;
-    }
-
     /**
      * @return Collection|ProductCart[]
      */
@@ -132,6 +112,7 @@ class Cart
         if (!$this->product_cart->contains($productCart)) {
             $this->product_cart[] = $productCart;
             $productCart->setCart($this);
+            $productCart->setQuantity(1);
         }
 
         return $this;

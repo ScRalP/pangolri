@@ -19,7 +19,7 @@
 </div>
 
 <ul class="list-group">
-{%for Products in carts.products%}
+{%for productCart in cartUser%}
   <li class="list-group-item">    
     <div id="{{ product.id }}" class="product-container col-3 my-3">
         <!-- Card -->
@@ -51,5 +51,6 @@
     {% else %}
     <p>No product to display</p>
     </li>
+    {%endfor%}
 </ul>
 {% endblock %}

@@ -30,7 +30,7 @@
 
 
 <a class="btn btn-primary mt-3" href={{ path('product_list') }}>Retour aux produits</a>
-<button name="ajoutPanier" onclick="{{ path('Add_Product', {'id' : product.id}) }}"
+<a class="btn btn-primary mt-3" href={{ path('add_product', {'id' : product.id}) }}>Ajouter au panier</a>
 
 <a href={{ path('product_list') }}>Retour aux produits</a>
 
