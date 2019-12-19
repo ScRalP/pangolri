@@ -45,14 +45,28 @@ body {
 
 /* Slideshow container */
 .slideshow-container {
-  max-width: 1000px;
-  position: relative;
-  margin: auto;
+    width:  400px;
+    height: 400px;
+    position: relative;
+    margin: auto;
 }
 
 /* Hide the images by default */
 .mySlides {
-  display: none;
+    display: none;
+}
+
+.mySlides img{
+    min-width:100%;
+    min-height:100%;
+    
+    max-width:100%;
+    max-height:100%;
+}
+
+#slideshow_next, #slideshow_prev{
+    position: relative;
+    bottom: 0;
 }
 /* -----------------------------------------------------------------*/
 /*                         END SLIDE SHOW                           */

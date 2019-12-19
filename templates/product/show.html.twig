@@ -22,17 +22,17 @@
 
                 {% if product.images %}
                     <!-- Slideshow container -->
-                    <div class="slideshow-container border">
-                    
+                    <div class="slideshow-container border card">
                         {% for image in product.images %}
                             <div class="mySlides">
                                 <img src={{ product_image(image) }} alt={{ image }}>
                             </div>
                         {% endfor %}
-
-                        <button class="btn btn-primary" id="slideshow_prev"><i class="fas fa-chevron-left"></i></button>
-                        <button class="btn btn-primary" id="slideshow_next"><i class="fas fa-chevron-right"></i></button>
                     </div>
+                
+                    <button class="btn btn-primary" id="slideshow_prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="btn btn-primary" id="slideshow_next"><i class="fas fa-chevron-right"></i></button>
+
                 {% endif %}
 
             </div>
