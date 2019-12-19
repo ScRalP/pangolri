@@ -19,7 +19,7 @@
 </div>
 
 <ul class="list-group">
-{%for Products in carts.products%}
+{%for product in cartUser%}
   <li class="list-group-item">    
     <div id="{{ product.id }}" class="product-container col-3 my-3">
         <!-- Card -->
@@ -28,7 +28,7 @@
             {# afficher l'image sinon mettre une image "?" #}
             {% if product.images %}
                 <!-- Card image -->
-                <img class="card-img-top" src={{ asset(product.images) }} alt="{{product.images}}">
+               {# <img class="card-img-top" src={{ asset(product.images) }} alt="{{product.images}}">#}
             {% else %}
                 <img class="card-img-top" src={{ asset('build/images/products/unknown.png') }} alt="unknown product">
             {% endif %}
@@ -51,5 +51,6 @@
     {% else %}
     <p>No product to display</p>
     </li>
+    {%endfor%}
 </ul>
 {% endblock %}
