@@ -1,15 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProductController!{% endblock %}
+{% block title %}{{ product.title }}{% endblock %}
 
 {% block body %}
 
-<h1 class="my-4">{{ product.title }}</h1>
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+        <h1 class="col-4">{{ product.title }}</h1>
+        <h1 class="col-2 offset-6">{{ product.price }}€</h1>
+        </div>
+    </div>
 
-<p>{{ product.description }}</p>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <p>{{ product.description }}</p>
+            </div>
 
-<p>{{ product.price }}</p>
+            {% for image in product.images %}
+                <div class="col-6">
+                    <img class="card-img-top" src={{ product_image(image) }} alt={{ image }}>
+                </div>
+            {% endfor %}
 
+        </div>
+    </div>
+</div>
+
+
+<a class="btn btn-primary mt-3" href={{ path('product_list') }}>Retour aux produits</a>
 <button name="ajoutPanier" onclick="{{ path('Add_Product', {'id' : product.id}) }}"
 
 <a href={{ path('product_list') }}>Retour aux produits</a>

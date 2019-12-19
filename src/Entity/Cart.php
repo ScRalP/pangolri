@@ -24,7 +24,7 @@ class Cart
     private $price;
 
     /**
-     * @ORM\ManyToMany(targetEntity="\App\Entity\Product", mappedBy="carts")
+     * @ORM\OneToMany(targetEntity="\App\Entity\Product", mappedBy="cart")
      */
     private $products;
 
@@ -34,7 +34,7 @@ class Cart
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity="\App\Entity\Order", mappedBy="cart")
+     * @ORM\OneToOne(targetEntity="\App\Entity\Order", inversedBy="cart")
      */
     private $order;
 
@@ -68,26 +68,6 @@ class Cart
         return $this->products;
     }
 
-    public function addProduct(Product $product): self
-    {
-        if (!$this->products->contains($product)) {
-            $this->products[] = $product;
-            $product->addCart($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        if ($this->products->contains($product)) {
-            $this->products->removeElement($product);
-            $product->removeCart($this);
-        }
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -115,10 +95,27 @@ class Cart
     {
         $this->order = $order;
 
-        // set (or unset) the owning side of the relation if necessary
-        $newCart = null === $order ? null : $this;
-        if ($order->getCart() !== $newCart) {
-            $order->setCart($newCart);
+        return $this;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setCart($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
+            // set the owning side to null (unless already changed)
+            if ($product->getCart() === $this) {
+                $product->setCart(null);
+            }
         }
 
         return $this;

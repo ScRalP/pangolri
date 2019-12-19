@@ -19,14 +19,14 @@ class Wishlist
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="\App\Entity\Product", mappedBy="wishlists")
+     * @ORM\OneToMany(targetEntity="\App\Entity\Product", mappedBy="wishlist")
      */
     private $products;
 
     /**
-     * @ORM\OneToOne(targetEntity="\App\Entity\User", mappedBy="cart")
+     * @ORM\OneToOne(targetEntity="\App\Entity\User", mappedBy="wishlist")
      */
-    private $client;
+    private $user;
 
     public function __construct()
     {
@@ -46,11 +46,29 @@ class Wishlist
         return $this->products;
     }
 
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newWishlist = null === $user ? null : $this;
+        if ($user->getWishlist() !== $newWishlist) {
+            $user->setWishlist($newWishlist);
+        }
+
+        return $this;
+    }
+
     public function addProduct(Product $product): self
     {
         if (!$this->products->contains($product)) {
             $this->products[] = $product;
-            $product->addWishlist($this);
+            $product->setWishlist($this);
         }
 
         return $this;
@@ -60,25 +78,10 @@ class Wishlist
     {
         if ($this->products->contains($product)) {
             $this->products->removeElement($product);
-            $product->removeWishlist($this);
-        }
-
-        return $this;
-    }
-
-    public function getClient(): ?User
-    {
-        return $this->client;
-    }
-
-    public function setClient(?User $client): self
-    {
-        $this->client = $client;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newCart = null === $client ? null : $this;
-        if ($client->getCart() !== $newCart) {
-            $client->setCart($newCart);
+            // set the owning side to null (unless already changed)
+            if ($product->getWishlist() === $this) {
+                $product->setWishlist(null);
+            }
         }
 
         return $this;

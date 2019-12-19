@@ -50,7 +50,7 @@ class AppFixture extends Fixture
                 ->setRate(rand(1, 5))
                 ->setStock(rand(1, 50))
                 ->setBrand('matel')
-                ->setImages("build\images\products\canard.jpeg");
+                ->setImages(["build\images\products\canard.jpeg"]);
             $manager->persist($product);
             $products[] = $product;
         }

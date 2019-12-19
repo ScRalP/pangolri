@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
@@ -19,27 +20,30 @@ class Product
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=100)
+     * @Assert\Length(max=100, maxMessage="Please don't exceed 100 characters")
      */
     private $title;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", length=500, nullable=true)
      */
     private $description;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Positive
      */
     private $price;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive
      */
     private $stock;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string",length=50, nullable=true)
      */
     private $brand;
 
@@ -49,7 +53,7 @@ class Product
     private $rate;
     
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="array", nullable=true)
      */
     private $images;
 
@@ -64,21 +68,20 @@ class Product
     private $comments;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Wishlist", inversedBy="products")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cart", inversedBy="products")
      */
-    private $wishlists;
+    private $cart;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Cart", inversedBy="products")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Wishlist", inversedBy="products")
      */
-    private $carts;
+    private $wishlist;
 
     public function __construct()
     {
+        $this->images = [];
         $this->categories = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        $this->wishlists = new ArrayCollection();
-        $this->carts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -122,14 +125,20 @@ class Product
         return $this;
     }
 
-    public function getImages(): ?string
+    public function getImages(): ?array
     {
         return $this->images;
     }
 
-    public function setImages(?string $images): self
+    public function setImages(?array $images): self
     {
         $this->images = $images;
+
+        return $this;
+    }
+
+    public function addImage(string $image){
+        $this->images[] = $image;
 
         return $this;
     }
@@ -163,7 +172,7 @@ class Product
         return $this->brand;
     }
 
-    public function setBrand(string $brand): self
+    public function setBrand(?string $brand): self
     {
         $this->brand = $brand;
 
@@ -227,54 +236,26 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Collection|Wishlist[]
-     */
-    public function getWishlists(): Collection
+    public function getCart(): ?Cart
     {
-        return $this->wishlists;
+        return $this->cart;
     }
 
-    public function addWishlist(Wishlist $wishlist): self
+    public function setCart(?Cart $cart): self
     {
-        if (!$this->wishlists->contains($wishlist)) {
-            $this->wishlists[] = $wishlist;
-        }
+        $this->cart = $cart;
 
         return $this;
     }
 
-    public function removeWishlist(Wishlist $wishlist): self
+    public function getWishlist(): ?Wishlist
     {
-        if ($this->wishlists->contains($wishlist)) {
-            $this->wishlists->removeElement($wishlist);
-        }
-
-        return $this;
+        return $this->wishlist;
     }
 
-    /**
-     * @return Collection|Cart[]
-     */
-    public function getCarts(): Collection
+    public function setWishlist(?Wishlist $wishlist): self
     {
-        return $this->carts;
-    }
-
-    public function addCart(Cart $cart): self
-    {
-        if (!$this->carts->contains($cart)) {
-            $this->carts[] = $cart;
-        }
-
-        return $this;
-    }
-
-    public function removeCart(Cart $cart): self
-    {
-        if ($this->carts->contains($cart)) {
-            $this->carts->removeElement($cart);
-        }
+        $this->wishlist = $wishlist;
 
         return $this;
     }

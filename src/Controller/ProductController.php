@@ -12,42 +12,72 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ProductController extends AbstractController
 {
-
     /**
      * Affichage de l'ensemble des produits
      * 
      * @Route("/product", name="product_list")
      */
-    public function index()
+    public function index(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $products = $em->getRepository(Product::class)->findAll();
         $categories = $em->getRepository(Category::class)->findAll();
+        $products   = [];
+
+        //Si on recherche un produit par titre
+        if( isset($_GET['search']) && $_GET['search']!=null ){
+            $allProducts = $em->getRepository(Product::class)->findAll();
+
+            foreach($allProducts as $product){
+                if( strpos( $product->getTitle(), $_GET['search'] ) !== false ){
+                    array_push($products, $product);
+                }
+            }
+            
+            return $this->render('product/index.html.twig', [
+                'products'   => $products,
+                'categories' => $categories
+            ]);
+        }
+
+        $products   = $em->getRepository(Product::class)->findAll();
 
         return $this->render('product/index.html.twig', [
-            'products' => $products,
-            'categories' => $categories,
-            'page_category' => -1
+            'products'   => $products,
+            'categories' => $categories
         ]);
     }
-
+    
     /**
-     * Affichage des produits par categorie
+     * Affichage de l'ensemble des produits faisant partis d'une catégorie
      * 
-     * @Route("categorie{id}", name="show_categ", requirements={"id"="\d+"})
+     * @Route("/product/category/{id}", name="product_categ", requirements={"id"="\d+"})
+     * @param categ, la catégorie que dont l'on souhaite voir les produits
      */
-    public function show_categ(int $id)
+    public function getProductsByCategoryId($id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $categories = $em->getRepository(Category::class)->findAll();
-        $category = $em->getRepository(Category::class)->find($id);
+        $products = [];
 
-        return $this->render('product/indexCategory.html.twig', [
-            'categories' => $categories,
-            'page_category' => $category
-        ]);
+        //Si on recherche un produit par categorie
+        if( isset($id) ){
+            $allProducts = $em->getRepository(Product::class)->findAll();
+            $categ = $em->getRepository(Category::class)->findOneBy(['id'=>$id]);
+
+            foreach($allProducts as $product){
+                foreach($product->getCategories() as $category){
+                    if( $category == $categ ){  //Si le produit possède la catégorie
+                        array_push($products, $product); //On l'ajoute à la liste
+                        break;
+                    }
+                }
+            }
+            
+            return $this->render('product/index.html.twig', [
+                'products' => $products,
+                'categories' => $categories
+            ]);
+        }
     }
     
     /**
@@ -93,28 +123,91 @@ class ProductController extends AbstractController
      */
     public function new(Request $request)
     {
-        $entity_manager = $this->getDoctrine()->getManager();
-
         $product = new Product();
-        $product->setTitle('test');
-        $product->setDescription('fuck its a test'); 
 
-        $category = new Category();
-        $category->setName('FUUUUUCK');
-        $product->addCategory($category);
-
-        $form = $this->createForm(ProductType::class, $product, [
-            'entity_manager' => $entity_manager,
-        ]);
+        $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
+        if ( $form->isSubmitted() && $form->isValid() ) {
 
-        if ( $form->isSubmitted() ) {
-            dump($product);
+            $images = $form->get('images')->getExtraData();
+            
+            $product = $form->getData();
+
+            $product->setImages($images);
+            $product->setRate(0);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($product);
+            $em->flush();
+
+            return $this->redirectToRoute('product_list');
         }
 
         return $this->render('product/new.html.twig', [
             'form' => $form->createView()
         ]);
     }
+
+    
+    /**
+     * Edit un produit
+     * 
+     * @Route("/product/edit/{id}", name="edit_product", requirements={"id"="\d+"})
+     * @param Request $request
+     * @param id $id, l'id du produit à modifier
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function edit(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $product = $em->getRepository(Product::class)->findOneBy(['id'=>$id]);
+
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
+
+        if ( $form->isSubmitted() && $form->isValid() ) {
+
+            $images = $form->get('images')->getExtraData();
+            
+            $product = $form->getData();
+
+            $product->setImages($images);
+            $product->setRate(0);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($product);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('product_list');
+        }
+
+        return $this->render('product/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * Supprime un  produit
+     * 
+     * @Route("/product/delete/{id}", name="delete_product", requirements={"id"="\d+"})
+     * @param Request $request
+     * @param id $id, l'id du produit à supprimer
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function delete(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $product = $em->getRepository(Product::class)->findOneBy(['id'=>$id]);
+
+        if (!$product) {
+            throw $this->createNotFoundException('No product found for id '.$id);
+        }
+
+        $em->remove($product);
+        $em->flush();
+
+        return $this->redirectToRoute('product_list');
+    }
+
 }
