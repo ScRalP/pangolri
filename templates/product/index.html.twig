@@ -5,6 +5,7 @@
 {% block prebody %}
 
 <nav class="navbar navbar-expand-lg navbar-light bg-primary border-top border-dark">
+    <a class="navbar-brand">Categories : </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_categ" aria-controls="navbar_categ" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -37,12 +38,11 @@
                 {% set break = false %}
                 {% for image in product.images if not break %}{# on parcours toute les images du produit #}
                     {% if product_image_exist( image ) %} {# On regarde si l'image est valide #}
-                        <!-- Card image -->
                         <img class="card-img-top" src="{{ product_image(image) }}" alt="{{ product_image(image) }}">
                         {% set break = true %} {# Une fois qu'on trouve une image valide on break pour n'afficher que celle ci #}
                     {% else %}
                         <img class="card-img-top" src="{{ product_image('unknown.png') }}" alt="unknown_product">
-                        {% set break = true %} {# Une fois qu'on trouve une image valide on break pour n'afficher que celle ci #}
+                        {% set break = true %} {# Sinon on affiche l'image unknown et on break #}
                     {% endif %}
 
                 {% else %}
@@ -53,9 +53,9 @@
                 <div class="card-body">
 
                     <!-- Title -->
-                    <h4 class="card-title"><a href="{{ path('show_product', {'id' : product.id}) }}">{{ product.title }} - {{ product.price|number_format(2) }}€</a></h4>
+                    <h4 class="card-title"><a href="{{ path('show_product', {'id' : product.id}) }}">{{ product.title|split('', 30)[0] }} - {{ product.price|number_format(2) }}€</a></h4>
                     <!-- Text -->
-                    <p class="card-text">{{ product.description }}</p>
+                    <p class="card-text">{{ product.description|split('', 100)[0] }}</p>
                     {% for category in product.categories %}
                         <span class="badge badge-secondary">{{category}}</span>
                     {% endfor %}
