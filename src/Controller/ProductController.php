@@ -49,22 +49,23 @@ class ProductController extends AbstractController
     /**
      * Affichage de l'ensemble des produits faisant partis d'une catégorie
      * 
-     * @Route("/product/category/{categ}", name="product_categ")
+     * @Route("/product/category/{id}", name="product_categ", requirements={"id"="\d+"})
      * @param categ, la catégorie que dont l'on souhaite voir les produits
      */
-    public function getProductsByCategory($categ)
+    public function getProductsByCategoryId($id)
     {
         $em = $this->getDoctrine()->getManager();
         $categories = $em->getRepository(Category::class)->findAll();
         $products = [];
 
         //Si on recherche un produit par categorie
-        if( isset($categ) ){
+        if( isset($id) ){
             $allProducts = $em->getRepository(Product::class)->findAll();
+            $categ = $em->getRepository(Category::class)->findOneBy(['id'=>$id]);
 
             foreach($allProducts as $product){
                 foreach($product->getCategories() as $category){
-                    if( $category == $categ ){           //Si le produit possède la catégorie
+                    if( $category == $categ ){  //Si le produit possède la catégorie
                         array_push($products, $product); //On l'ajoute à la liste
                         break;
                     }
@@ -117,9 +118,9 @@ class ProductController extends AbstractController
             $product->setImages($images);
             $product->setRate(0);
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($product);
-            $entityManager->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($product);
+            $em->flush();
 
             return $this->redirectToRoute('product_list');
         }

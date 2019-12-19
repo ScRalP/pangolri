@@ -11,7 +11,7 @@
     <div class="collapse navbar-collapse" id="navbar_categ">
         <ul class="navbar-nav mr-auto">
             {% for category in categories %}
-                <li class="nav-item"><a class="nav-link" href="{{ path('product_categ', {'categ':category.name}) }}">{{ category.name }}</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ path('product_categ', {'id':category.id}) }}">{{ category.name }}</a></li>
             {% endfor %}
         </ul>
     </div>
