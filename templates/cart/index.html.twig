@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CartController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Hello {{ controller_name }}! ✅</h1>
+
+    This friendly message is coming from:
+    <ul>
+        <li>Your controller at <code><a href="{{ '/home/bn170224/public_html/pangolri$/pangolri/src/Controller/CartController.php'|file_link(0) }}">src/Controller/CartController.php</a></code></li>
+        <li>Your template at <code><a href="{{ '/home/bn170224/public_html/pangolri$/pangolri/templates/cart/index.html.twig'|file_link(0) }}">templates/cart/index.html.twig</a></code></li>
+    </ul>
+</div>
+
+<ul class="list-group">
+{%for Products in carts.products%}
+  <li class="list-group-item">    
+    <div id="{{ product.id }}" class="product-container col-3 my-3">
+        <!-- Card -->
+        <div class="card shadow">
+
+            {# afficher l'image sinon mettre une image "?" #}
+            {% if product.images %}
+                <!-- Card image -->
+                <img class="card-img-top" src={{ asset(product.images) }} alt="{{product.images}}">
+            {% else %}
+                <img class="card-img-top" src={{ asset('build/images/products/unknown.png') }} alt="unknown product">
+            {% endif %}
+
+            <!-- Card content -->
+            <div class="card-body">
+
+                <!-- Title -->
+                <h4 class="card-title"><a href={{ path('show_product', {'id' : product.id}) }}>{{ product.title }}</a></h4>
+                <!-- Text -->
+                <p class="card-text">{{ product.description }}</p>
+                {% for category in product.categories %}
+                    <span class="badge badge-secondary">{{category}}</span>
+                {% endfor %}
+            </div>
+
+        </div>
+    <!-- Card -->
+    </div>
+    {% else %}
+    <p>No product to display</p>
+    </li>
+</ul>
+{% endblock %}

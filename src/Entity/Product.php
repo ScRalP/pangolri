@@ -68,12 +68,12 @@ class Product
     private $comments;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Cart", inversedBy="products")
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductCart", mappedBy="product")
      */
-    private $cart;
+    private $product_cart;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Wishlist", inversedBy="products")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Wishlist", inversedBy="products")
      */
     private $wishlist;
 
@@ -82,6 +82,8 @@ class Product
         $this->images = [];
         $this->categories = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->product_cart = new ArrayCollection();
+        $this->wishlist = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -248,7 +250,10 @@ class Product
         return $this;
     }
 
-    public function getWishlist(): ?Wishlist
+    /**
+     * @return Collection|Wishlist[]
+     */
+    public function getWishlist(): Collection
     {
         return $this->wishlist;
     }
@@ -256,6 +261,55 @@ class Product
     public function setWishlist(?Wishlist $wishlist): self
     {
         $this->wishlist = $wishlist;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductCart[]
+     */
+    public function getProductCart(): Collection
+    {
+        return $this->product_cart;
+    }
+
+    public function addProductCart(ProductCart $productCart): self
+    {
+        if (!$this->product_cart->contains($productCart)) {
+            $this->product_cart[] = $productCart;
+            $productCart->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductCart(ProductCart $productCart): self
+    {
+        if ($this->product_cart->contains($productCart)) {
+            $this->product_cart->removeElement($productCart);
+            // set the owning side to null (unless already changed)
+            if ($productCart->getProduct() === $this) {
+                $productCart->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addWishlist(Wishlist $wishlist): self
+    {
+        if (!$this->wishlist->contains($wishlist)) {
+            $this->wishlist[] = $wishlist;
+        }
+
+        return $this;
+    }
+
+    public function removeWishlist(Wishlist $wishlist): self
+    {
+        if ($this->wishlist->contains($wishlist)) {
+            $this->wishlist->removeElement($wishlist);
+        }
 
         return $this;
     }
