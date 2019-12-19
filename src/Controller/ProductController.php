@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Product;
 use App\Form\ProductType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ProductController extends AbstractController
 {
-
     /**
      * Affichage de l'ensemble des produits
      * 
@@ -19,7 +19,8 @@ class ProductController extends AbstractController
     public function index(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $products = [];
+        $products   = [];
+        $categories = $em->getRepository(Category::class)->findAll();
 
         //Si on recherche un produit par titre
         if( isset($_GET['search']) && $_GET['search']!=null ){
@@ -32,14 +33,16 @@ class ProductController extends AbstractController
             }
             
             return $this->render('product/index.html.twig', [
-                'products' => $products
+                'products'   => $products,
+                'categories' => $categories
             ]);
         }
 
-        $products = $em->getRepository(Product::class)->findAll();
+        $products   = $em->getRepository(Product::class)->findAll();
 
         return $this->render('product/index.html.twig', [
             'products'   => $products,
+            'categories' => $categories
         ]);
     }
     
@@ -138,9 +141,6 @@ class ProductController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $product = $em->getRepository(Product::class)->findOneBy(['id'=>$id]);
 
-        dump($product);
-        die();
-
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
@@ -169,12 +169,23 @@ class ProductController extends AbstractController
      * Supprime un  produit
      * 
      * @Route("/product/delete/{id}", name="delete_product", requirements={"id"="\d+"})
+     * @param Request $request
      * @param id $id, l'id du produit à supprimer
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
-        return $this->render('product/index.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $product = $em->getRepository(Product::class)->findOneBy(['id'=>$id]);
+
+        if (!$product) {
+            throw $this->createNotFoundException('No product found for id '.$id);
+        }
+
+        $em->remove($product);
+        $em->flush();
+
+        return $this->redirectToRoute('product_list');
     }
 
 }
