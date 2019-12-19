@@ -32,11 +32,13 @@ class Product
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Positive
      */
     private $price;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive
      */
     private $stock;
 

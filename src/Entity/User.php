@@ -34,7 +34,11 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=250, unique=true)
+     * @ORM\Column(type="string", length=16, unique=true)
+     * @Assert\Regex(
+     *      pattern="/^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/",
+     *      message="You must respect the format XX.XX.XX.XX.XX"
+     * )
      */
     private $cellphone;
 
@@ -50,6 +54,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThan(value=10, message="Just ask your parents kiddo")
      */
     private $age;
 
@@ -61,7 +66,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private $roles = ['ROLE_USER'];
 
     /**
      * @var string The hashed password

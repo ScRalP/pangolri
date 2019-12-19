@@ -3,7 +3,8 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-<form method="post">
+
+{{ form_start(form) }}
 
     <div class="card">
         <div class="card-header">
@@ -11,16 +12,18 @@
         </div>
 
         <div class="card-body">
-            {{ form_row(form.username) }}
-            {{ form_row(form.email) }}
-            {{ form_row(form.cellphone) }}
+            {{ form_row(form.username  ) }}
+            {{ form_row(form.password  ) }}
+            {{ form_row(form.email     ) }}
+            {{ form_row(form.cellphone ) }}
             {{ form_row(form.first_name) }}
-            {{ form_row(form.last_name) }}
-            {{ form_row(form.age) }}
-            {{ form_row(form.address) }}
-            {{ form_row(form.password) }}
-            {{ form_row(form.save) }}
+            {{ form_row(form.last_name ) }}
+            {{ form_row(form.age       ) }}
+            {{ form_row(form.address   ) }}
+            {{ form_row(form.save      ) }}
         </div>
     </div>
-</form>
+
+{{ form_end(form) }}
+
 {% endblock %}
