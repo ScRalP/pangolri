@@ -11,6 +11,8 @@ use App\Entity\ProductCart;
 
 class CartController extends AbstractController
 {
+
+    private $products;
     /**
      * @Route("/cart", name="cart")
      */
@@ -18,12 +20,16 @@ class CartController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
+
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $productCart = $user->getCart()->getProductCart();
+        foreach($productCart as $nbProducts){
+            $products []= $nbProducts->getProduct();
+        }
 
         return $this->render('cart/index.html.twig', [
             'controller_name' => 'CartController',
-            'cartUser' => $productCart
+            'cartUser' => $products
         ]);
     }
 
