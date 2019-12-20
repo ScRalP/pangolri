@@ -7,7 +7,7 @@
     <h1>Your cart !</h1>
 
     {# Si on a des produits dans le panier #}
-    {% if productCarts %} 
+    {% if productCarts|length != 0 %} 
         {# Afficher un tableau des produits #}
         <table class="table table-striped">
             <thead>
