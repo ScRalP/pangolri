@@ -75,7 +75,7 @@ class Product
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Wishlist", inversedBy="products")
      */
-    private $wishlist;
+    private $wishlists;
 
     public function __construct()
     {

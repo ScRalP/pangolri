@@ -2,21 +2,19 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserController extends AbstractController
 {
     /**
      * @Route("/user", name="show_user")
      */
-    public function show(UserInterface $user)
+    public function show()
     {
-        $em = $this->getDoctrine()->getManager();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
         if( isset($user) ){
 
@@ -32,12 +30,15 @@ class UserController extends AbstractController
     /**
      * @Route("/user/edit", name="edit_user")
      */
-    public function edit(Request $request, UserInterface $user)
+    public function edit(Request $request)
     {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
         if( isset($user) ){
+
             $form = $this->createForm(UserType::class, $user);
             $form->handleRequest($request);
-    
+
             if ( $form->isSubmitted() && $form->isValid() ) {
                 $user = $form->getData();
     
@@ -55,6 +56,6 @@ class UserController extends AbstractController
             ]);
         }
         
-        return $this->render('default/home.html.twig');
+        return $this->render('user/show.html.twig');
     }
 }

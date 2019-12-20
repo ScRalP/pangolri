@@ -24,12 +24,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=50)
-     * @Assert\Length(
-     *      max=50,
-     *      maxMessage="Please don't exceed 50 characters",
-     *      min=2,
-     *      minMessage="Please choose a username longer than 2 characters"
-     * )
      */
     private $username;
 

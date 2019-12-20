@@ -19,7 +19,7 @@ class Wishlist
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="\App\Entity\Product", mappedBy="wishlist")
+     * @ORM\ManyToMany(targetEntity="\App\Entity\Product", mappedBy="wishlists")
      */
     private $products;
 
