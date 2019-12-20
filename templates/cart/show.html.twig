@@ -20,17 +20,20 @@
                 </tr>
             </thead>
 
+                {{ dump(productCarts) }}
             <tbody>
                 {% for productCart in productCarts %}
 
-                {{ dump(productCart) }}
                 {% set product = productCart.product %}
+                {% set totalPrice = product.price * productCart.quantity %}
 
                     <tr>
                         <td><a href={{ path('show_product', {'id':product.id}) }}>{{ product.title }}</a></td>
                         <td>{{ product.description|split('', 50)[0] }}</td>
                         <td>{{ productCart.quantity }}</td>
+                        <td>{{ totalPrice|number_format(2, '.', ' ') }} €</td>
                         <td><a class="btn btn-danger" href={{ path('home') }}><i class="fas fa-trash"></i></a></td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>
