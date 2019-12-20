@@ -12,12 +12,12 @@
         <table class="table table-striped">
             <thead>
                 <tr scope="row">
-                    <td scope="col" class="col-2">Title</td>
-                    <td scope="col" class="col-6">Descritpion</td>
-                    <td scope="col" class="col-1">Unit price</td>
-                    <td scope="col" class="col-1">Quantity</td>
-                    <td scope="col" class="col-1">Price</td>
-                    <td scope="col" class="col-1"></td>
+                    <td scope="col">Title</td>
+                    <td scope="col">Descritpion</td>
+                    <td scope="col">Unit price</td>
+                    <td scope="col">Quantity</td>
+                    <td scope="col">Price</td>
+                    <td scope="col"></td>
                 </tr>
             </thead>
 
@@ -38,6 +38,8 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <a class="btn btn-primary" href={{ path('home') }}>Validate order</a> {# Changer la redirection une fois la commande faite #}
     {% else %}
         <p>Your cart is empty !<p>
         <a class="btn btn-primary" href={{ path('product_list') }}>See products</a>

@@ -55,13 +55,11 @@
             <table class="table">
                 <thead>
                     <tr scope="row">
-                        <th scope="col" class="col-2">Author</th>
-                        <th scope="col" class="col-2">Publication date</th>
-                        {% if not is_granted('ROLE_ADMIN') %}
-                            <th scope="col" class="col-8">Description</th>
-                        {% else %}
-                            <th scope="col" class="col-7">Description</th>
-                            <th scope="col" class="col-1"></th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Publication date</th>
+                        <th scope="col">Description</th>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <th scope="col"></th>
                         {% endif %}
                     </tr>
                 </thead>
@@ -71,8 +69,8 @@
                         <tr scope="row">
                             <td>{{ comment.author }}</div>
                             <td>{{ comment.date|date("d/m/Y") }}</div>
-                            <td>{{comment.description}}</div>
-                            {% if is_granted('ROLE_ADMIN') %}
+                            <td>{{ comment.description }}</div>
+                            {% if is_granted('ROLE_USER') %}
                                 <td class="btn btn-danger" href={{ path('delete_comment', {'id':comment.id}) }}><i class="fas fa-trash"></i></a>
                             {% endif %}
                         </tr> 
@@ -83,6 +81,7 @@
             <p>No one left a comments here...</p>  
         {% endif %}
         
+
         {% if app.user %}
             {{ form_start(commentForm, {'attr':{'class':'border-top mt-4 pt-2'}}) }}
                 {{ form_row(commentForm.description) }}
