@@ -53,7 +53,7 @@
                 <div class="card-body">
 
                     <!-- Title -->
-                    <h4 class="card-title"><a href="{{ path('show_product', {'id' : product.id}) }}">{{ product.title|split('', 30)[0] }} - {{ product.price|number_format(2) }}€</a></h4>
+                    <h4 class="card-title"><a href="{{ path('show_product', {'id' : product.id}) }}">{{ product.title|split('', 30)[0] }} - {{ product.price|number_format(2, '.', ' ') }}€</a></h4>
                     <!-- Text -->
                     <p class="card-text">{{ product.description|split('', 100)[0] }}</p>
                     {% for category in product.categories %}
