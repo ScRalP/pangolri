@@ -14,11 +14,12 @@ class CommentType extends AbstractType
     {
         $builder
             ->add('description', TextType::class, [
+                'label' => 'Add comment',
                 'attr'=> ['class' => 'form-control', 'placeholder' => 'Tell us what you think about this product!'],
             ])
             ->add('save', SubmitType::class, [
                 'attr'=> ['class' => 'btn btn-success'],
-                'label' => 'Add comment'
+                'label' => '+'
             ])
         ;
     }

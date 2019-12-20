@@ -13,14 +13,14 @@
             <thead>
                 <tr scope="row">
                     <td scope="col" class="col-2">Title</td>
-                    <td scope="col" class="col-7">Descritpion</td>
+                    <td scope="col" class="col-6">Descritpion</td>
+                    <td scope="col" class="col-1">Unit price</td>
                     <td scope="col" class="col-1">Quantity</td>
                     <td scope="col" class="col-1">Price</td>
                     <td scope="col" class="col-1"></td>
                 </tr>
             </thead>
 
-                {{ dump(productCarts) }}
             <tbody>
                 {% for productCart in productCarts %}
 
@@ -30,6 +30,7 @@
                     <tr>
                         <td><a href={{ path('show_product', {'id':product.id}) }}>{{ product.title }}</a></td>
                         <td>{{ product.description|split('', 50)[0] }}</td>
+                        <td>{{ product.price }}</td>
                         <td>{{ productCart.quantity }}</td>
                         <td>{{ totalPrice|number_format(2, '.', ' ') }} €</td>
                         <td><a class="btn btn-danger" href={{ path('home') }}><i class="fas fa-trash"></i></a></td>

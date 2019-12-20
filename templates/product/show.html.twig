@@ -38,43 +38,50 @@
             </div>
         </div>
 
+        {# Redirection vers la page de connexion si il n'a pas de compte #}
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <a class="btn btn-primary mt-3" href={{ path('add_product', {'id' : product.id}) }}>Ajouter au panier</a>
+            {% set redirect = path('add_product', {'id' : product.id}) %}
+        {% else %}
+            {% set redirect = path('app_login') %}
         {% endif %}
+        <a class="btn btn-primary mt-3" href={{ redirect }}>Ajouter au panier</a>
+        
         
     </div>
 
     <div class="card-footer">
         <h2 id="comments">Comments</h2>
-
-        <table class="table">
-            <thead>
-                <tr scope="row">
-                    <th scope="col" class="col-2">Author</th>
-                    <th scope="col" class="col-2">Publication date</th>
-                    {% if not is_granted('ROLE_ADMIN') %}
-                        <th scope="col" class="col-8">Description</th>
-                    {% else %}
-                        <th scope="col" class="col-7">Description</th>
-                        <th scope="col" class="col-1"></th>
-                    {% endif %}
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for comment in product.comments %}
+        {% if product.comments|length != 0 %}
+            <table class="table">
+                <thead>
                     <tr scope="row">
-                        <td>{{ comment.author }}</div>
-                        <td>{{ comment.date|date("d/m/Y") }}</div>
-                        <td>{{comment.description}}</div>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <td class="btn btn-danger" href={{ path('delete_comment', {'id':comment.id}) }}><i class="fas fa-trash"></i></a>
+                        <th scope="col" class="col-2">Author</th>
+                        <th scope="col" class="col-2">Publication date</th>
+                        {% if not is_granted('ROLE_ADMIN') %}
+                            <th scope="col" class="col-8">Description</th>
+                        {% else %}
+                            <th scope="col" class="col-7">Description</th>
+                            <th scope="col" class="col-1"></th>
                         {% endif %}
-                    </tr> 
-                {% endfor %}
-            </tbody>
-            
-        </table>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for comment in product.comments %}
+                        <tr scope="row">
+                            <td>{{ comment.author }}</div>
+                            <td>{{ comment.date|date("d/m/Y") }}</div>
+                            <td>{{comment.description}}</div>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <td class="btn btn-danger" href={{ path('delete_comment', {'id':comment.id}) }}><i class="fas fa-trash"></i></a>
+                            {% endif %}
+                        </tr> 
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No one left a comments here...</p>  
+        {% endif %}
         
         {{ form_start(commentForm, {'attr':{'class':'border-top mt-4 pt-2'}}) }}
             {{ form_row(commentForm.description) }}
