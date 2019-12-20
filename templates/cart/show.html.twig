@@ -6,13 +6,40 @@
 
     <h1>Your cart !</h1>
 
-    <table class="table table-striped">
-        {% for product in products %}
-            {{ product.title }}
-        {% else %}
-            <p>Your cart is empty !<p>
-            <a class="btn btn-primary" href={{ path('product_list') }}>See products</a>
-        {% endfor %}
-    </table>
+    {# Si on a des produits dans le panier #}
+    {% if productCarts %} 
+        {# Afficher un tableau des produits #}
+        <table class="table table-striped">
+            <thead>
+                <tr scope="row">
+                    <td scope="col" class="col-2">Title</td>
+                    <td scope="col" class="col-7">Descritpion</td>
+                    <td scope="col" class="col-1">Quantity</td>
+                    <td scope="col" class="col-1">Price</td>
+                    <td scope="col" class="col-1"></td>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for productCart in productCarts %}
+
+                {{ dump(productCart) }}
+                {% set product = productCart.product %}
+
+                    <tr>
+                        <td><a href={{ path('show_product', {'id':product.id}) }}>{{ product.title }}</a></td>
+                        <td>{{ product.description|split('', 50)[0] }}</td>
+                        <td>{{ productCart.quantity }}</td>
+                        <td><a class="btn btn-danger" href={{ path('home') }}><i class="fas fa-trash"></i></a></td>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Your cart is empty !<p>
+        <a class="btn btn-primary" href={{ path('product_list') }}>See products</a>
+    {% endif %}
+    
+
+
 
 {% endblock %}

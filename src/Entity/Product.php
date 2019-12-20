@@ -70,7 +70,7 @@ class Product
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ProductCart", mappedBy="product")
      */
-    private $product_cart;
+    private $product_carts;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Wishlist", inversedBy="products")
@@ -85,6 +85,7 @@ class Product
         $this->product_cart = new ArrayCollection();
         $this->wishlist = new ArrayCollection();
         $this->wishlists = new ArrayCollection();
+        $this->product_carts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -266,37 +267,6 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Collection|ProductCart[]
-     */
-    public function getProductCart(): Collection
-    {
-        return $this->product_cart;
-    }
-
-    public function addProductCart(ProductCart $productCart): self
-    {
-        if (!$this->product_cart->contains($productCart)) {
-            $this->product_cart[] = $productCart;
-            $productCart->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProductCart(ProductCart $productCart): self
-    {
-        if ($this->product_cart->contains($productCart)) {
-            $this->product_cart->removeElement($productCart);
-            // set the owning side to null (unless already changed)
-            if ($productCart->getProduct() === $this) {
-                $productCart->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function addWishlist(Wishlist $wishlist): self
     {
         if (!$this->wishlists->contains($wishlist)) {
@@ -321,5 +291,36 @@ class Product
     public function getWishlists(): Collection
     {
         return $this->wishlists;
+    }
+
+    /**
+     * @return Collection|ProductCart[]
+     */
+    public function getProductCarts(): Collection
+    {
+        return $this->product_carts;
+    }
+
+    public function addProductCart(ProductCart $productCart): self
+    {
+        if (!$this->product_carts->contains($productCart)) {
+            $this->product_carts[] = $productCart;
+            $productCart->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductCart(ProductCart $productCart): self
+    {
+        if ($this->product_carts->contains($productCart)) {
+            $this->product_carts->removeElement($productCart);
+            // set the owning side to null (unless already changed)
+            if ($productCart->getProduct() === $this) {
+                $productCart->setProduct(null);
+            }
+        }
+
+        return $this;
     }
 }

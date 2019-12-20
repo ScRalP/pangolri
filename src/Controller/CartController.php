@@ -15,19 +15,22 @@ class CartController extends AbstractController
      */
     public function show()
     {
+        $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $cart = $user->getCart();
-        $products = [];
 
-        $productCarts = $cart->getProductCart();
-        foreach($productCarts as $productCart){
-            array_push( $products, $productCart->getProduct() );
+        $retProductCarts = [];
+        $allProductCarts = $em->getRepository(ProductCart::class)->findAll();
+        $productCarts = $cart->getProductCarts();
+        foreach($allProductCarts as $productCart){
+            if( $productCarts->contains($productCart) )
+                array_push( $retProductCarts, $productCart );
         }
 
         return $this->render('cart/show.html.twig', [
             'cart' => $cart,
-            'products' => $products
+            'productCarts' => $productCarts
         ]);
     }
 
