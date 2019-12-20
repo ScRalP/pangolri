@@ -39,6 +39,42 @@
         </div>
 
     </div>
+    <div class="card-footer">
+        <h2 id="comments">Comments</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" class="col-2">Author</th>
+                        <th scope="col" class="col-2">Publication date</th>
+                        {% if not is_granted('ROLE_ADMIN') %}
+                            <th scope="col" class="col-8">Description</th>
+                        {% else %}
+                            <th scope="col" class="col-7">Description</th>
+                            <th scope="col" class="col-1"></th>
+                        {% endif %}
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for comment in product.comments %}
+                        <tr scope="row">
+                            <td>{{ comment.author }}</div>
+                            <td>{{ comment.date|date("d/m/Y") }}</div>
+                            <td>{{comment.description}}</div>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <td class="btn btn-danger" href={{ path('delete_comment', {'id':comment.id}) }}><i class="fas fa-trash"></i></a>
+                            {% endif %}
+                        </tr> 
+                    {% endfor %}
+                </tbody>
+                
+            </table>
+            
+            {{ form_start(commentForm, {'attr':{'class':'border-top mt-4 pt-2'}}) }}
+                {{ form_row(commentForm.description) }}
+                {{ form_widget(commentForm.save) }}
+            {{ form_end(commentForm) }}
+    </div>
 </div>
 
 <a class="btn btn-primary mt-3" href={{ path('product_list') }}>Retour aux produits</a>

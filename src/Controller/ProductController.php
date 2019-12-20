@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Entity\Product;
 use App\Entity\Cart;
+use App\Entity\Comment;
+use App\Form\CommentType;
 use App\Form\ProductType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\Date;
 
 class ProductController extends AbstractController
 {
@@ -85,32 +88,33 @@ class ProductController extends AbstractController
      * 
      * @Route("/product/{id}", name="show_product", requirements={"id"="\d+"})
      */
-    public function show(int $id)
+    public function show(Request $request, int $id)
     {
+        $comment = new Comment;
         $em = $this->getDoctrine()->getManager();
 
         $product = $em->getRepository(Product::class)->find($id);
 
+        $commentForm = $this->createForm(CommentType::class, $comment);
+        $commentForm->handleRequest($request);
+
+        if ( $commentForm->isSubmitted() && $commentForm->isValid() ) {
+            //Creation du commentaire & ajout du commentaire
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+            $comment->setAuthor($user->getUsername());
+            $comment->setDate( new \DateTime() );
+            $comment->setProduct($product);
+            
+            //Ajout du commentaire dans la base
+            $em->persist($comment);
+            $em->flush();
+
+            return $this->redirectToRoute( 'show_product', ['id' => $product->getId()] );
+        }
+
         return $this->render('product/show.html.twig', [
-            'product' => $product
-        ]);
-    }
-
-    /**
-     * Affichage de la fiche d'un produit
-     * 
-     * @Route("/product/{id}", name="Add_product", requirements={"id"="\d+"})
-     */
-    public function show_product(int $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $product = $em->getRepository(Product::class)->find($id);
-        $cart = new Cart();
-
-
-        return $this->render('product/show.html.twig', [
-            'product' => $product
+            'product' => $product,
+            'commentForm' => $commentForm->createView()
         ]);
     }
 
@@ -129,7 +133,7 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ( $form->isSubmitted() && $form->isValid() ) {
-
+            //Création du produit
             $images = $form->get('images')->getExtraData();
             
             $product = $form->getData();
@@ -188,14 +192,13 @@ class ProductController extends AbstractController
     }
 
     /**
-     * Supprime un  produit
+     * Supprime un produit
      * 
      * @Route("/product/delete/{id}", name="delete_product", requirements={"id"="\d+"})
-     * @param Request $request
      * @param id $id, l'id du produit à supprimer
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function delete(Request $request, $id)
+    public function delete($id)
     {
         $em = $this->getDoctrine()->getManager();
         $product = $em->getRepository(Product::class)->findOneBy(['id'=>$id]);

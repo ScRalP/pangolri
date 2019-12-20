@@ -84,6 +84,7 @@ class Product
         $this->comments = new ArrayCollection();
         $this->product_cart = new ArrayCollection();
         $this->wishlist = new ArrayCollection();
+        $this->wishlists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -298,8 +299,8 @@ class Product
 
     public function addWishlist(Wishlist $wishlist): self
     {
-        if (!$this->wishlist->contains($wishlist)) {
-            $this->wishlist[] = $wishlist;
+        if (!$this->wishlists->contains($wishlist)) {
+            $this->wishlists[] = $wishlist;
         }
 
         return $this;
@@ -307,10 +308,18 @@ class Product
 
     public function removeWishlist(Wishlist $wishlist): self
     {
-        if ($this->wishlist->contains($wishlist)) {
-            $this->wishlist->removeElement($wishlist);
+        if ($this->wishlists->contains($wishlist)) {
+            $this->wishlists->removeElement($wishlist);
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Wishlist[]
+     */
+    public function getWishlists(): Collection
+    {
+        return $this->wishlists;
     }
 }
