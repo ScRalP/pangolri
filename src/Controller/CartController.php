@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Cart;
 use App\Entity\Product;
 use App\Entity\ProductCart;
@@ -12,17 +11,23 @@ use App\Entity\ProductCart;
 class CartController extends AbstractController
 {
     /**
-     * @Route("/cart", name="cart")
+     * @Route("/cart", name="show_cart")
      */
-    public function index()
+    public function show()
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $cartProducts = $user->getCart()->getProductCart();
 
+        $cart = $user->getCart();
+        $products = [];
 
-        return $this->render('cart/index.html.twig', [
-            'controller_name' => 'CartController',
-            'cartProducts' => $cartProducts
+        $productCarts = $cart->getProductCart();
+        foreach($productCarts as $productCart){
+            array_push( $products, $productCart->getProduct() );
+        }
+
+        return $this->render('cart/show.html.twig', [
+            'cart' => $cart,
+            'products' => $products
         ]);
     }
 
@@ -31,34 +36,49 @@ class CartController extends AbstractController
      * 
      * @Route("/product/add/{id}", name="add_product", requirements={"id"="\d+"})
      */
-    public function add_product(int $id)
+    public function addProduct(int $id)
     {
+        //Recuperer le client
         $em = $this->getDoctrine()->getManager();
+        $product = $em->getRepository(Product::class)->find($id);
+        
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
+        //récupérer son panier
         $cart = $user->getCart();
 
+        //Si son panier est null on lui en créer un nouveau
         if($cart==null){
-            $user->setCart(new Cart());
-            $cart->$user->getCart();
-            $cart->setPrice(0);
+            $cart = $user->setCart(new Cart());
         }
 
-        $product = $em->getRepository(Product::class)->find($id);
+        //On regarde si le produit existe déjà dans le panier
+        $existingProductCart = null;
+        $productCarts = $em->getRepository(ProductCart::class)->findAll();
+        foreach($productCarts as $productCart){
+            if( $productCart->getProduct() == $product && $productCart->getCart() == $cart ){
+                $existingProductCart = $productCart;
+            }
+        }
 
-        $productCart = new ProductCart();
-        $productCart->setCart($cart)
-                    ->setProduct($product);
-
-        $cart->addProductCart($productCart);
+        //Si le produit existe déjà on incrémenta la quantité
+        if( $existingProductCart != null ){
+            $productCart = $existingProductCart;
+            $productCart->setQuantity( $productCart->getQuantity()+1 );
+        } else{ //Sinon on l'ajoute avec une quantité de 1
+            $productCart = new ProductCart();
+            $productCart->setCart($cart);
+            $productCart->setProduct($product);
+            $productCart->setQuantity(1);
+    
+            $cart->addProductCart($productCart);
+        }
 
         $em->persist($cart);
         $em->persist($productCart);
         $em->flush();
 
-        return $this->render('product/show.html.twig', [
-            'product' => $product
-        ]);
+        return $this->redirectToRoute('show_cart');
     }
 
 

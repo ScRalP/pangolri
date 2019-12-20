@@ -75,7 +75,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToOne(targetEntity="\App\Entity\Cart", inversedBy="user")
+     * @ORM\OneToOne(targetEntity="\App\Entity\Cart", inversedBy="user", cascade={"persist", "remove"})
      */
     private $cart;
 
@@ -101,6 +101,7 @@ class User implements UserInterface
 
     public function __construct()
     {
+        $this->cart = new Cart();
         $this->order = new ArrayCollection();
         $this->delivery = new ArrayCollection();
         $this->payment = new ArrayCollection();

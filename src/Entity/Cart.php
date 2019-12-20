@@ -40,7 +40,7 @@ class Cart
 
     public function __construct()
     {
-        $this->products = new ArrayCollection();
+        $this->price = 0;
         $this->product_cart = new ArrayCollection();
     }
 
@@ -59,14 +59,6 @@ class Cart
         $this->price = $price;
 
         return $this;
-    }
-
-    /**
-     * @return Collection|Product[]
-     */
-    public function getProducts(): Collection
-    {
-        return $this->products;
     }
 
     public function getUser(): ?User
