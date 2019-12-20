@@ -24,9 +24,9 @@ class Cart
     private $price;
 
     /**
-     * @ORM\OneToMany(targetEntity="\App\Entity\Product", mappedBy="cart")
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductCart", mappedBy="cart")
      */
-    private $products;
+    private $product_cart;
 
     /**
      * @ORM\OneToOne(targetEntity="\App\Entity\User", mappedBy="cart")
@@ -40,7 +40,8 @@ class Cart
 
     public function __construct()
     {
-        $this->products = new ArrayCollection();
+        $this->price = 0;
+        $this->product_cart = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -58,14 +59,6 @@ class Cart
         $this->price = $price;
 
         return $this;
-    }
-
-    /**
-     * @return Collection|Product[]
-     */
-    public function getProducts(): Collection
-    {
-        return $this->products;
     }
 
     public function getUser(): ?User
@@ -98,23 +91,31 @@ class Cart
         return $this;
     }
 
-    public function addProduct(Product $product): self
+    /**
+     * @return Collection|ProductCart[]
+     */
+    public function getProductCart(): Collection
     {
-        if (!$this->products->contains($product)) {
-            $this->products[] = $product;
-            $product->setCart($this);
+        return $this->product_cart;
+    }
+
+    public function addProductCart(ProductCart $productCart): self
+    {
+        if (!$this->product_cart->contains($productCart)) {
+            $this->product_cart[] = $productCart;
+            $productCart->setCart($this);
         }
 
         return $this;
     }
 
-    public function removeProduct(Product $product): self
+    public function removeProductCart(ProductCart $productCart): self
     {
-        if ($this->products->contains($product)) {
-            $this->products->removeElement($product);
+        if ($this->product_cart->contains($productCart)) {
+            $this->product_cart->removeElement($productCart);
             // set the owning side to null (unless already changed)
-            if ($product->getCart() === $this) {
-                $product->setCart(null);
+            if ($productCart->getCart() === $this) {
+                $productCart->setCart(null);
             }
         }
 

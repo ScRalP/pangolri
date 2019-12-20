@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
@@ -17,7 +18,13 @@ class Comment
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=50, nullable=false)
+     */
+    private $author;
+
+    /**
      * @ORM\Column(type="string", length=500, nullable=false)
+     * @Assert\Length(max=100, maxMessage="Please don't exceed 100 characters")
      */
     private $description;
 
@@ -25,6 +32,12 @@ class Comment
      * @ORM\ManyToOne(targetEntity="\App\Entity\Product", inversedBy="comments")
      */
     private $product;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date;
+
 
     public function getId(): ?int
     {
@@ -54,4 +67,29 @@ class Comment
 
         return $this;
     }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?string
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(string $author): self
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
 }

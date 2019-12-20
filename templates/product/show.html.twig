@@ -18,17 +18,75 @@
                 <p>{{ product.description }}</p>
             </div>
 
-            {% for image in product.images %}
-                <div class="col-6">
-                    <img class="card-img-top" src={{ product_image(image) }} alt={{ image }}>
-                </div>
-            {% endfor %}
+            <div class="col-6 text-center">
 
+                {% if product.images %}
+                    <!-- Slideshow container -->
+                    <div class="slideshow-container border card">
+                        {% for image in product.images %}
+                            <div class="mySlides">
+                                <img src={{ product_image(image) }} alt={{ image }}>
+                            </div>
+                        {% endfor %}
+                    </div>
+                
+                    <button class="btn btn-primary" id="slideshow_prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="btn btn-primary" id="slideshow_next"><i class="fas fa-chevron-right"></i></button>
+
+                {% endif %}
+
+            </div>
         </div>
+
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a class="btn btn-primary mt-3" href={{ path('add_product', {'id' : product.id}) }}>Ajouter au panier</a>
+        {% endif %}
+        
+    </div>
+
+    <div class="card-footer">
+        <h2 id="comments">Comments</h2>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col" class="col-2">Author</th>
+                    <th scope="col" class="col-2">Publication date</th>
+                    {% if not is_granted('ROLE_ADMIN') %}
+                        <th scope="col" class="col-8">Description</th>
+                    {% else %}
+                        <th scope="col" class="col-7">Description</th>
+                        <th scope="col" class="col-1"></th>
+                    {% endif %}
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for comment in product.comments %}
+                    <tr scope="row">
+                        <td>{{ comment.author }}</div>
+                        <td>{{ comment.date|date("d/m/Y") }}</div>
+                        <td>{{comment.description}}</div>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <td class="btn btn-danger" href={{ path('delete_comment', {'id':comment.id}) }}><i class="fas fa-trash"></i></a>
+                        {% endif %}
+                    </tr> 
+                {% endfor %}
+            </tbody>
+            
+        </table>
+        
+        {{ form_start(commentForm, {'attr':{'class':'border-top mt-4 pt-2'}}) }}
+            {{ form_row(commentForm.description) }}
+            {{ form_widget(commentForm.save) }}
+        {{ form_end(commentForm) }}
     </div>
 </div>
 
-
 <a class="btn btn-primary mt-3" href={{ path('product_list') }}>Retour aux produits</a>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('slideShow') }}
 {% endblock %}

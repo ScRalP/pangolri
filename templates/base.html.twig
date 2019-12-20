@@ -12,7 +12,9 @@
     <body>
         {% include 'inc/navbar.html.twig' %}
 
-        <div class="container" id="wrap">
+        {% block prebody %}{% endblock %}
+
+        <div class="container mt-5" id="wrap">
             <div class="container-fluid" id="main">
                 {% block body %}{% endblock %}
             </div>

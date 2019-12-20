@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Account{% endblock %}
+
+{% block body %}
+    
+
+    <div class="card">
+        <div class="card-header">
+            <div class="row mx-1">
+                <h1 class="col-3">Your account</h1>
+                <a class="btn btn-primary col-1 offset-8" href="{{ path('edit_user') }}">Edit profile</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-2">Username :</div>
+                        <div class="col-10">{{user.username}}</div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-2">First name :</div>
+                        <div class="col-10">{{user.firstname}}</div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-2">Last name :</div>
+                        <div class="col-10">{{user.lastname}}</div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-2">Age :</div>
+                        <div class="col-10">{{user.age}}</div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-2">Email :</div>
+                        <div class="col-10">{{user.email}}</div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-2">Phone n° :</div>
+                        <div class="col-10">{{user.cellphone}}</div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-2">Address :</div>
+                        <div class="col-10">{{user.address}}</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}

@@ -21,7 +21,7 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @Assert\Length(max=100, maxMessage="Le titre est trop long, veuillez ne pas depasser les 100 caractères")
+     * @Assert\Length(max=100, maxMessage="Please don't exceed 100 characters")
      */
     private $title;
 
@@ -32,11 +32,13 @@ class Product
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Positive
      */
     private $price;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive
      */
     private $stock;
 
@@ -66,20 +68,23 @@ class Product
     private $comments;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Cart", inversedBy="products")
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductCart", mappedBy="product")
      */
-    private $cart;
+    private $product_cart;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Wishlist", inversedBy="products")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Wishlist", inversedBy="products")
      */
-    private $wishlist;
+    private $wishlists;
 
     public function __construct()
     {
         $this->images = [];
         $this->categories = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->product_cart = new ArrayCollection();
+        $this->wishlist = new ArrayCollection();
+        $this->wishlists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -246,7 +251,10 @@ class Product
         return $this;
     }
 
-    public function getWishlist(): ?Wishlist
+    /**
+     * @return Collection|Wishlist[]
+     */
+    public function getWishlist(): Collection
     {
         return $this->wishlist;
     }
@@ -256,5 +264,62 @@ class Product
         $this->wishlist = $wishlist;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|ProductCart[]
+     */
+    public function getProductCart(): Collection
+    {
+        return $this->product_cart;
+    }
+
+    public function addProductCart(ProductCart $productCart): self
+    {
+        if (!$this->product_cart->contains($productCart)) {
+            $this->product_cart[] = $productCart;
+            $productCart->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductCart(ProductCart $productCart): self
+    {
+        if ($this->product_cart->contains($productCart)) {
+            $this->product_cart->removeElement($productCart);
+            // set the owning side to null (unless already changed)
+            if ($productCart->getProduct() === $this) {
+                $productCart->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addWishlist(Wishlist $wishlist): self
+    {
+        if (!$this->wishlists->contains($wishlist)) {
+            $this->wishlists[] = $wishlist;
+        }
+
+        return $this;
+    }
+
+    public function removeWishlist(Wishlist $wishlist): self
+    {
+        if ($this->wishlists->contains($wishlist)) {
+            $this->wishlists->removeElement($wishlist);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Wishlist[]
+     */
+    public function getWishlists(): Collection
+    {
+        return $this->wishlists;
     }
 }

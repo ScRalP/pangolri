@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -22,7 +23,7 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=50)
      */
     private $username;
 
@@ -32,7 +33,11 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=250, unique=true)
+     * @ORM\Column(type="string", length=16, unique=true)
+     * @Assert\Regex(
+     *      pattern="/^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/",
+     *      message="You must respect the format XX.XX.XX.XX.XX"
+     * )
      */
     private $cellphone;
 
@@ -48,6 +53,8 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThan(value=10, message="Just ask your parents kiddo")
+     * @Assert\LessThan(value=110, message="Don't make me belive you're that old...")
      */
     private $age;
 
@@ -59,7 +66,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private $roles = ['ROLE_USER'];
 
     /**
      * @var string The hashed password
@@ -68,7 +75,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToOne(targetEntity="\App\Entity\Cart", inversedBy="user")
+     * @ORM\OneToOne(targetEntity="\App\Entity\Cart", inversedBy="user", cascade={"persist", "remove"})
      */
     private $cart;
 
@@ -94,6 +101,7 @@ class User implements UserInterface
 
     public function __construct()
     {
+        $this->cart = new Cart();
         $this->order = new ArrayCollection();
         $this->delivery = new ArrayCollection();
         $this->payment = new ArrayCollection();

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Log in{% endblock %}
 
 {% block body %}
 <form method="post">
@@ -8,15 +8,9 @@
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
-
     <div class="card offset-3 col-6 p-0">
         <div class="card-header">
-            <h1 class="h3 mb-3 font-weight-normal">Please log in</h1>
+            <h1>Please log in</h1>
         </div>
 
         <div class="card-body">
@@ -42,8 +36,9 @@
                 <div class="col-3">
                     <button class="btn btn-lg btn-primary my-1" type="submit">Sign in</button>
                 </div>
+                
                 <div class="offset-6 col-3">
-                    <a href=path('app_register')>Create account</a>
+                    <a href={{ path('app_register') }}>Create account</a>
                 </div>
             </div>
         </div>

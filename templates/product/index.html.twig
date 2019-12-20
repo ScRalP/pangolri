@@ -2,57 +2,83 @@
 
 {% block title %}Products{% endblock %}
 
+{% block prebody %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-primary border-top border-dark">
+    <a class="navbar-brand">Categories : </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_categ" aria-controls="navbar_categ" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar_categ">
+        <ul class="navbar-nav mr-auto">
+            {% for category in categories %}
+                <li class="nav-item"><a class="nav-link" href="{{ path('product_categ', {'id':category.id}) }}">{{ category.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</nav>
+{% endblock %}
+
 {% block body %}
 
-<h1>Product list !</h1>
-
 <div class="row">
-{% for product in products %}
-    <div id="{{ product.id }}" class="product-container col-3 my-3">
-        <!-- Card -->
-        <div class="card shadow">
-
-            {# afficher l'image sinon mettre une image "?" #}
-            {% set break = false %}
-            {% for image in product.images if not break %}{# on parcours toute les images du produit #}
-                {% if product_image_exist( image ) %} {# On regarde si l'image est valide #}
-                    <!-- Card image -->
-                    <img class="card-img-top" src="{{ product_image(image) }}" alt="{{ product_image(image) }}">
-                    {% set break = true %} {# Une fois qu'on trouve une image valide on break pour n'afficher que celle ci #}
-                {% else %}
-                    <img class="card-img-top" src="{{ product_image('unknown.png') }}" alt="unknown_product">
-                    {% set break = true %} {# Une fois qu'on trouve une image valide on break pour n'afficher que celle ci #}
-                {% endif %}
-
-            {% else %} {##}
-                <img class="card-img-top" src="{{ product_image('unknown.png') }}" alt="unknown_product">
-            {% endfor %}
-
-            <!-- Card content -->
-            <div class="card-body">
-
-                <!-- Title -->
-                <h4 class="card-title"><a href={{ path('show_product', {'id' : product.id}) }}>{{ product.title }}</a></h4>
-                <!-- Text -->
-                <p class="card-text">{{ product.description }}</p>
-                {% for category in product.categories %}
-                    <span class="badge badge-secondary">{{category}}</span>
-                {% endfor %}
-
-                <label class="">
-            </div>
-
-        </div>
-        
-        {# Ajout d'un bouton supprimer pour les admin #}
-        {% if is_granted('ROLE_ADMIN') %}
-            <button class="btn btn-danger" id="delete_{{product.id}}">Delete</button>
-        {% endif %}
-    <!-- Card -->
-    </div>
-{% else %}
-    <p>No product to display</p>
-{% endfor %}
+    <h1 class="col-6">Product list !</h1>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-success col-1 offset-5" href="{{ path('new_product') }}">New product</a>
+    {% endif %}
 </div>
 
+<div class="row">
+    {% for product in products %}
+        <div id="{{ product.id }}" class="product-container col-3 my-3">
+            <!-- Card -->
+            <div class="card shadow">
+
+                {# afficher l'image sinon mettre une image "?" #}
+                {% set break = false %}
+                {% for image in product.images if not break %}{# on parcours toute les images du produit #}
+                    {% if product_image_exist( image ) %} {# On regarde si l'image est valide #}
+                        <img class="card-img-top" src="{{ product_image(image) }}" alt="{{ product_image(image) }}">
+                        {% set break = true %} {# Une fois qu'on trouve une image valide on break pour n'afficher que celle ci #}
+                    {% else %}
+                        <img class="card-img-top" src="{{ product_image('unknown.png') }}" alt="unknown_product">
+                        {% set break = true %} {# Sinon on affiche l'image unknown et on break #}
+                    {% endif %}
+
+                {% else %}
+                    <img class="card-img-top" src="{{ product_image('unknown.png') }}" alt="unknown_product">
+                {% endfor %}
+
+                <!-- Card content -->
+                <div class="card-body">
+
+                    <!-- Title -->
+                    <h4 class="card-title"><a href="{{ path('show_product', {'id' : product.id}) }}">{{ product.title|split('', 30)[0] }} - {{ product.price|number_format(2) }}€</a></h4>
+                    <!-- Text -->
+                    <p class="card-text">{{ product.description|split('', 100)[0] }}</p>
+                    {% for category in product.categories %}
+                        <span class="badge badge-secondary">{{category}}</span>
+                    {% endfor %}
+                </div>
+
+            {# Ajout des boutons admin #}
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="row mx-0">
+                    <a class="btn btn-warning col-6" id="edit_{{product.id}}" href="{{ path('edit_product', {'id':product.id}) }}">Edit</a>
+                    <a class="btn btn-danger col-6" id="delete_{{product.id}}" href="{{ path('delete_product', {'id':product.id}) }}">Delete</a>
+                </div>
+            {% endif %}
+
+            </div><!-- Card -->
+            
+        </div>
+    {% else %}
+        <p>No product to display</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('confirmation') }}
 {% endblock %}
