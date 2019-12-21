@@ -29,7 +29,8 @@ une fois la procédure d'installation terminé vous pourrez entrez les commandes
 
 
 3) Créer la base de donnée et configurer la connexion :
-Sous phpMyAdmin (ou votre application d'administration de base de donnée favoris) éxécutez le fichier ".sql"
+Sous phpMyAdmin (ou votre application d'administration de base de donnée favoris) créez
+une nouvelle base de donnée puis éxécutez le fichier "pangolri.sql". Cela créera toute les tables avec des tuples
 Ouvrez ensuite le fichier ".env" et modifiez la ligne :
 DATABASE_URL="mysql://db_user:db_pass@127.0.0.1:3306/db_name"
 db_name = pangolri
