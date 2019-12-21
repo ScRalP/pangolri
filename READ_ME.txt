@@ -29,13 +29,14 @@ une fois la procédure d'installation terminé vous pourrez entrez les commandes
 
 
 3) Créer la base de donnée et configurer la connexion :
-Sous phpMyAdmin (ou votre application d'administration de base de donnée favoris) créez
-une nouvelle base de donnée puis éxécutez le fichier "pangolri.sql". Cela créera toute les tables avec des tuples
+Sous phpMyAdmin (ou votre application d'administration de base de donnée favoris) créez une nouvelle base de donnée 
+que vous appellerez pangolri puis importez le fichier "pangolri.sql". Cela créera toute les tables avec des tuples.
 Ouvrez ensuite le fichier ".env" et modifiez la ligne :
 DATABASE_URL="mysql://db_user:db_pass@127.0.0.1:3306/db_name"
-db_name = pangolri
-db_user = le nom de votre utilisateur
-db_pass = votre mot de passe
+Replacez :
+ - db_name = pangolri
+ - db_user = le nom de votre utilisateur
+ - db_pass = votre mot de passe
 
 4) Lancer le serveur et se rendre sur la page :
 Entrez la commande : "php bin/console server:run" pour lancer le serveur local puis sur votre navigateur favoris
@@ -57,7 +58,7 @@ Vous avez déjà des utilisateurs de créer dont voici la liste avec les identif
     ## IMPORTANT ##
       _.-'''''-._
     .' ___   ___ '.
-   /=='___'-'___:==\
+   /==:___'-'___:==\
   |         .       |
   |         _|      |
    \     .____.    /
