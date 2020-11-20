@@ -7,5 +7,5 @@ Nous avons décidé de le réaliser en PHP avec ```Symfony 4.4```.
 
 
 ## Auteurs
-Quentin ROBARD
+Quentin ROBARD   
 Niels BEAUMONT
